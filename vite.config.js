@@ -7,4 +7,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    host: true,   // expose on LAN so phones can connect via QR code
+    port: 5173,
+  },
 })
