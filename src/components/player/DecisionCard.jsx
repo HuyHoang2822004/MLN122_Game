@@ -121,7 +121,7 @@ const DecisionCard = ({ mission, onVote }) => {
       <div className="relative z-10 mt-6 text-center">
         {selected ? (
           <div className="text-sm font-semibold text-blue-400">
-            🔒 Đã gửi quyết định! Đang chờ kết quả...
+            Đã gửi quyết định! Đang chờ kết quả...
           </div>
         ) : (
           <div className="text-xs text-slate-500">

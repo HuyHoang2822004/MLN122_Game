@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
-import { ACHIEVEMENTS } from '../../data/missions';
-import AnimatedBackground from '../shared/AnimatedBackground';
+import { motion } from "framer-motion";
+import { ACHIEVEMENTS } from "../../data/missions";
+import AnimatedBackground from "../shared/AnimatedBackground";
 
 const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
   // Sort players by score desc
@@ -8,32 +8,35 @@ const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
 
   return (
     <div className="host-layout flex flex-col min-h-screen">
-      <AnimatedBackground accent={mission?.color || '#2563EB'} showGrid intensity={0.6} />
+      <AnimatedBackground
+        accent={mission?.color || "#2563EB"}
+        showGrid
+        intensity={0.6}
+      />
 
       {/* Header */}
       <div
         className="relative z-10 flex items-center justify-between px-8 py-4"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+        style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <div className="flex items-center gap-3">
-          <span className="text-2xl">🏆</span>
+          <span className="text-2xl"></span>
           <div>
             <h2
               className="text-lg font-bold"
-              style={{ fontFamily: "'Outfit', sans-serif", color: '#F1F5F9' }}
+              style={{ fontFamily: "'Outfit', sans-serif", color: "#F1F5F9" }}
             >
               BẢNG XẾP HẠNG
             </h2>
-            <div className="text-xs" style={{ color: '#475569' }}>
-              {mission ? `Chương ${mission.chapter} · ${mission.chapterName}` : 'Kết quả chung cuộc'}
+            <div className="text-xs" style={{ color: "#475569" }}>
+              {mission
+                ? `Chương ${mission.chapter} · ${mission.chapterName}`
+                : "Kết quả chung cuộc"}
             </div>
           </div>
         </div>
-        <button
-          onClick={onNext}
-          className="btn btn-primary"
-        >
-          {isLastMission ? '🏆 Hoàn thành nhiệm vụ' : 'Chương tiếp theo →'}
+        <button onClick={onNext} className="btn btn-primary">
+          {isLastMission ? "Hoàn thành nhiệm vụ" : "Chương tiếp theo →"}
         </button>
       </div>
 
@@ -42,7 +45,7 @@ const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
         {sortedPlayers.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <span className="text-6xl opacity-30">👥</span>
-            <div className="text-sm text-center" style={{ color: '#475569' }}>
+            <div className="text-sm text-center" style={{ color: "#475569" }}>
               Không có người chơi nào trong phòng
             </div>
           </div>
@@ -51,7 +54,12 @@ const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
             {sortedPlayers.map((player, index) => {
               const rank = index + 1;
               const isTop3 = rank <= 3;
-              const comboColor = player.combo >= 3 ? '#EF4444' : player.combo >= 2 ? '#F59E0B' : '#64748B';
+              const comboColor =
+                player.combo >= 3
+                  ? "#EF4444"
+                  : player.combo >= 2
+                    ? "#F59E0B"
+                    : "#64748B";
 
               return (
                 <motion.div
@@ -63,33 +71,50 @@ const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
                   style={{
                     background: isTop3
                       ? `linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))`
-                      : 'rgba(255,255,255,0.03)',
+                      : "rgba(255,255,255,0.03)",
                     border: isTop3
                       ? `1px solid rgba(255, 215, 0, ${0.4 - rank * 0.1})`
-                      : '1px solid rgba(255,255,255,0.06)',
+                      : "1px solid rgba(255,255,255,0.06)",
                   }}
                 >
                   {/* Rank Badge */}
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-lg ${
-                      rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : ''
+                      rank === 1
+                        ? "rank-1"
+                        : rank === 2
+                          ? "rank-2"
+                          : rank === 3
+                            ? "rank-3"
+                            : ""
                     }`}
                     style={{
-                      background: !isTop3 ? 'rgba(255,255,255,0.06)' : undefined,
-                      color: isTop3 ? '#0A0F1C' : '#94A3B8',
+                      background: !isTop3
+                        ? "rgba(255,255,255,0.06)"
+                        : undefined,
+                      color: isTop3 ? "#0A0F1C" : "#94A3B8",
                     }}
                   >
-                    {rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank}
+                    {rank === 1
+                      ? "🥇"
+                      : rank === 2
+                        ? "🥈"
+                        : rank === 3
+                          ? "🥉"
+                          : rank}
                   </div>
 
                   {/* Avatar & Name */}
                   <span className="text-3xl">{player.avatar}</span>
                   <div className="flex-1 min-w-0">
-                    <div className="text-base font-bold truncate" style={{ color: '#F1F5F9' }}>
+                    <div
+                      className="text-base font-bold truncate"
+                      style={{ color: "#F1F5F9" }}
+                    >
                       {player.name}
                     </div>
                     {player.studentId && (
-                      <div className="text-xs" style={{ color: '#475569' }}>
+                      <div className="text-xs" style={{ color: "#475569" }}>
                         MSSV: {player.studentId}
                       </div>
                     )}
@@ -106,9 +131,9 @@ const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
                           title={ach.desc}
                           className="px-2.5 py-1 rounded-lg text-xs flex items-center gap-1"
                           style={{
-                            background: 'rgba(255,255,255,0.04)',
-                            border: '1px solid rgba(255,255,255,0.08)',
-                            color: '#94A3B8',
+                            background: "rgba(255,255,255,0.04)",
+                            border: "1px solid rgba(255,255,255,0.08)",
+                            color: "#94A3B8",
                           }}
                         >
                           <span>{ach.icon}</span>
@@ -130,7 +155,7 @@ const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
                         color: comboColor,
                       }}
                     >
-                      🔥 Combo x{player.combo}
+                      Combo x{player.combo}
                     </motion.div>
                   )}
 
@@ -138,11 +163,14 @@ const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
                   <div className="text-right">
                     <div
                       className="text-2xl font-black font-display"
-                      style={{ color: isTop3 ? '#60A5FA' : '#E2E8F0', fontFamily: "'Outfit', sans-serif" }}
+                      style={{
+                        color: isTop3 ? "#60A5FA" : "#E2E8F0",
+                        fontFamily: "'Outfit', sans-serif",
+                      }}
                     >
                       {player.score}
                     </div>
-                    <div className="text-xs" style={{ color: '#475569' }}>
+                    <div className="text-xs" style={{ color: "#475569" }}>
                       Điểm tích luỹ
                     </div>
                   </div>

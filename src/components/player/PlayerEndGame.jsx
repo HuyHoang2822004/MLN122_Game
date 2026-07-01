@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { assignTitles } from '../../data/missions';
+import { motion } from "framer-motion";
+import { assignTitles } from "../../data/missions";
 const PlayerEndGame = ({ player, players }) => {
   const sorted = [...players].sort((a, b) => b.score - a.score);
   const myRank = sorted.findIndex((p) => p.id === player.id) + 1;
@@ -13,7 +13,7 @@ const PlayerEndGame = ({ player, players }) => {
                     MISSION DECISION
     ==================================================
     Xin chúc mừng sinh viên: ${player.name}
-    ${player.studentId ? `MSSV: ${player.studentId}` : ''}
+    ${player.studentId ? `MSSV: ${player.studentId}` : ""}
     
     Đã xuất sắc hoàn thành cuộc giả lập quyết định
     về Hiện tượng Moderna - Độc quyền Nhà nước trong CNTB.
@@ -21,16 +21,16 @@ const PlayerEndGame = ({ player, players }) => {
     KẾT QUẢ CHUNG CUỘC:
     - Xếp hạng phòng: ${myRank}/${players.length}
     - Tổng điểm: ${player.score} pts
-    - Huy hiệu đạt được: ${player.achievements?.join(', ') || 'Chưa đạt'}
-    - Danh hiệu cá nhân: ${myTitle ? `${myTitle.label} - ${myTitle.desc}` : 'Chưa đạt'}
+    - Huy hiệu đạt được: ${player.achievements?.join(", ") || "Chưa đạt"}
+    - Danh hiệu cá nhân: ${myTitle ? `${myTitle.label} - ${myTitle.desc}` : "Chưa đạt"}
     
-    Ngày hoàn thành: ${new Date().toLocaleDateString('vi-VN')}
+    Ngày hoàn thành: ${new Date().toLocaleDateString("vi-VN")}
     ==================================================
     `;
 
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
     link.download = `chung_nhan_${player.name}.txt`;
     link.click();
@@ -40,7 +40,6 @@ const PlayerEndGame = ({ player, players }) => {
   return (
     <div className="player-layout flex flex-col justify-between p-6 min-h-screen">
       <div className="relative z-10 text-center flex-1 flex flex-col justify-center items-center gap-6">
-
         {/* Certificate icon */}
         <motion.div
           initial={{ scale: 0 }}
@@ -66,43 +65,62 @@ const PlayerEndGame = ({ player, players }) => {
         <div
           className="rounded-2xl p-6 w-full max-w-xs flex flex-col gap-4 text-left"
           style={{
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.08)",
           }}
         >
           {/* Rank row */}
           <div className="flex justify-between items-center">
-            <span className="text-xs text-slate-500 font-bold uppercase">Thứ hạng phòng</span>
+            <span className="text-xs text-slate-500 font-bold uppercase">
+              Thứ hạng phòng
+            </span>
             <span
               className="text-2xl font-black text-yellow-400"
               style={{ fontFamily: "'Outfit', sans-serif" }}
             >
-              #{myRank} <span className="text-xs text-slate-500 font-normal">/ {players.length}</span>
+              #{myRank}{" "}
+              <span className="text-xs text-slate-500 font-normal">
+                / {players.length}
+              </span>
             </span>
           </div>
 
-          <div style={{ height: 1, background: 'rgba(255,255,255,0.08)' }} />
+          <div style={{ height: 1, background: "rgba(255,255,255,0.08)" }} />
 
           {/* Score row */}
           <div className="flex justify-between items-center">
-            <span className="text-xs text-slate-500 font-bold uppercase">Tổng điểm đạt được</span>
+            <span className="text-xs text-slate-500 font-bold uppercase">
+              Tổng điểm đạt được
+            </span>
             <span
               className="text-2xl font-black text-blue-400"
               style={{ fontFamily: "'Outfit', sans-serif" }}
             >
-              {player.score} <span className="text-xs text-slate-500 font-normal">pts</span>
+              {player.score}{" "}
+              <span className="text-xs text-slate-500 font-normal">pts</span>
             </span>
           </div>
         </div>
 
         {/* Title Award */}
         {myTitle && (
-          <div className="w-full max-w-xs p-4 rounded-xl text-left" style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.1), rgba(59,130,246,0.05))', border: '1px solid rgba(56,189,248,0.2)' }}>
-            <div className="text-xs text-sky-400 font-bold uppercase mb-1">Danh Hiệu Đạt Được</div>
+          <div
+            className="w-full max-w-xs p-4 rounded-xl text-left"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(56,189,248,0.1), rgba(59,130,246,0.05))",
+              border: "1px solid rgba(56,189,248,0.2)",
+            }}
+          >
+            <div className="text-xs text-sky-400 font-bold uppercase mb-1">
+              Danh Hiệu Đạt Được
+            </div>
             <div className="flex items-center gap-3">
               <span className="text-3xl">{myTitle.icon}</span>
               <div>
-                <div className="text-lg font-black text-white">{myTitle.label}</div>
+                <div className="text-lg font-black text-white">
+                  {myTitle.label}
+                </div>
                 <div className="text-xs text-slate-300">{myTitle.desc}</div>
               </div>
             </div>
@@ -121,7 +139,13 @@ const PlayerEndGame = ({ player, players }) => {
                   key={ach}
                   className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300"
                 >
-                  🏆 {ach === 'vaccine_hero' ? 'Vaccine Hero' : ach === 'perfect_combo' ? 'Perfect Combo' : ach === 'warp_speed' ? 'Warp Speed' : ach}
+                  {ach === "vaccine_hero"
+                    ? "Vaccine Hero"
+                    : ach === "perfect_combo"
+                      ? "Perfect Combo"
+                      : ach === "warp_speed"
+                        ? "Warp Speed"
+                        : ach}
                 </span>
               ))}
             </div>
@@ -129,14 +153,6 @@ const PlayerEndGame = ({ player, players }) => {
         )}
 
         {/* Download Button */}
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={handleDownloadCertificate}
-          className="btn btn-primary w-full max-w-xs mt-4"
-        >
-          📄 Tải Chứng Nhận
-        </motion.button>
       </div>
 
       <div className="relative z-10 text-center text-xs text-slate-600 mt-6">

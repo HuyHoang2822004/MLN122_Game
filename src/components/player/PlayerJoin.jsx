@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import AnimatedBackground from '../shared/AnimatedBackground';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import AnimatedBackground from "../shared/AnimatedBackground";
 
-const AVATARS = ['🦊', '🐼', '🦁', '🐯', '🤖', '🧠', '⚡', '🔥', '💎', '🏆'];
+const AVATARS = ["🦊", "🐼", "🦁", "🐯", "🤖", "🧠", "⚡", "🔥", "💎", "🏆"];
 
 const PlayerJoin = ({ roomCode, onJoin }) => {
-  const [name, setName] = useState('');
-  const studentId = '';
+  const [name, setName] = useState("");
+  const studentId = "";
   const [avatar, setAvatar] = useState(AVATARS[0]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError('Vui lòng nhập tên của bạn');
+      setError("Vui lòng nhập tên của bạn");
       return;
     }
-    setError('');
+    setError("");
     onJoin({
       id: Math.random().toString(36).substr(2, 9),
       name: name.trim(),
@@ -34,18 +34,23 @@ const PlayerJoin = ({ roomCode, onJoin }) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           className="glass-card p-6"
-          style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(255,255,255,0.08)' }}
+          style={{
+            background: "rgba(15,23,42,0.8)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
         >
           {/* Header */}
           <div className="text-center mb-6">
-            <span className="text-4xl mb-2 inline-block">🎯</span>
+            <span className="text-4xl mb-2 inline-block"></span>
             <h2
               className="text-2xl font-black text-white"
               style={{ fontFamily: "'Outfit', sans-serif" }}
             >
               Tham Gia Nhiệm Vụ
             </h2>
-            <p className="text-xs text-blue-400 font-mono mt-1">Phòng: {roomCode}</p>
+            <p className="text-xs text-blue-400 font-mono mt-1">
+              Phòng: {roomCode}
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -78,8 +83,14 @@ const PlayerJoin = ({ roomCode, onJoin }) => {
                     onClick={() => setAvatar(emoji)}
                     className="w-10 h-10 rounded-xl flex items-center justify-center text-xl transition-all cursor-pointer"
                     style={{
-                      background: avatar === emoji ? 'rgba(37,99,235,0.2)' : 'rgba(255,255,255,0.03)',
-                      border: avatar === emoji ? '1.5px solid #2563EB' : '1px solid rgba(255,255,255,0.08)',
+                      background:
+                        avatar === emoji
+                          ? "rgba(37,99,235,0.2)"
+                          : "rgba(255,255,255,0.03)",
+                      border:
+                        avatar === emoji
+                          ? "1.5px solid #2563EB"
+                          : "1px solid rgba(255,255,255,0.08)",
                     }}
                   >
                     {emoji}
@@ -88,7 +99,9 @@ const PlayerJoin = ({ roomCode, onJoin }) => {
               </div>
             </div>
 
-            {error && <div className="text-xs text-red-400 font-semibold">{error}</div>}
+            {error && (
+              <div className="text-xs text-red-400 font-semibold">{error}</div>
+            )}
 
             {/* Join CTA */}
             <motion.button
@@ -97,7 +110,7 @@ const PlayerJoin = ({ roomCode, onJoin }) => {
               type="submit"
               className="btn btn-primary w-full mt-2"
             >
-              Vào phòng chờ 🚀
+              Vào phòng chờ
             </motion.button>
           </form>
         </motion.div>
