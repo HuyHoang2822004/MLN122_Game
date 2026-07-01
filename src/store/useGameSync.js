@@ -35,7 +35,17 @@ function compress(msg) {
       a: p.avatar,
       s: p.score,
       c: p.combo,
-      h: p.achievements
+      h: p.achievements,
+      st: p.stats ? {
+        r: p.stats.research,
+        b: p.stats.budget,
+        t: p.stats.trust,
+        p: p.stats.production,
+        e: p.stats.economy,
+        cc: p.stats.correctCount,
+        sc: p.stats.speedCount,
+        ch: p.stats.choices
+      } : undefined
     }));
   }
 
@@ -72,7 +82,17 @@ function decompress(c) {
         avatar: p.a,
         score: p.s,
         combo: p.c,
-        achievements: p.h
+        achievements: p.h,
+        stats: p.st ? {
+          research: p.st.r,
+          budget: p.st.b,
+          trust: p.st.t,
+          production: p.st.p,
+          economy: p.st.e,
+          correctCount: p.st.cc,
+          speedCount: p.st.sc,
+          choices: p.st.ch
+        } : undefined
       }));
     } else {
       msg.player = {

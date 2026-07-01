@@ -36,7 +36,7 @@ const HostApp = ({ roomCode }) => {
       case PLAYER_MSG.JOIN:
         setPlayers((prev) => {
           if (prev.some((p) => p.id === msg.player.id)) return prev;
-          const updated = [...prev, { ...msg.player, score: 0, combo: 0, achievements: [] }];
+          const updated = [...prev, { ...msg.player, score: 0, combo: 0, achievements: [], stats: { research: 0, budget: 0, trust: 0, production: 0, economy: 0, correctCount: 0, speedCount: 0, choices: [] } }];
           broadcastState(phase, currentMissionIdx, updated, votes, votedPlayerIds);
           return updated;
         });
@@ -71,6 +71,21 @@ const HostApp = ({ roomCode }) => {
                 ? Math.round((100 + 30 * (msg.timeRemaining / mission.timeLimit)) * (nextCombo >= 3 ? 1.5 : nextCombo >= 2 ? 1.25 : 1))
                 : 0;
 
+              // Accumulate choice indicators
+              const choiceObj = mission.choices.find(c => c.id === msg.choiceId);
+              const nextStats = p.stats ? { ...p.stats } : { research: 0, budget: 0, trust: 0, production: 0, economy: 0, correctCount: 0, speedCount: 0, choices: [] };
+              if (choiceObj && choiceObj.indicators) {
+                Object.entries(choiceObj.indicators).forEach(([key, val]) => {
+                  nextStats[key] = (nextStats[key] || 0) + val;
+                });
+              }
+              nextStats.choices = [...(nextStats.choices || []), msg.choiceId];
+              nextStats.correctCount = (nextStats.correctCount || 0) + (isCorrect ? 1 : 0);
+              const timeUsed = mission.timeLimit - msg.timeRemaining;
+              if (timeUsed <= 5) {
+                nextStats.speedCount = (nextStats.speedCount || 0) + 1;
+              }
+
               // Compute new achievements
               const nextAchievements = [...p.achievements];
               if (isCorrect && !nextAchievements.includes('warp_speed') && msg.timeRemaining >= mission.timeLimit - 3) {
@@ -88,6 +103,7 @@ const HostApp = ({ roomCode }) => {
                 score: p.score + addedScore,
                 combo: nextCombo,
                 achievements: nextAchievements,
+                stats: nextStats,
               };
             });
             return updated;
@@ -124,6 +140,7 @@ const HostApp = ({ roomCode }) => {
         score: p.score,
         combo: p.combo,
         achievements: p.achievements,
+        stats: p.stats,
       })),
       votes: currentVotes,
       votedCount: votedIds.size,

@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
-
+import { assignTitles } from '../../data/missions';
 const PlayerEndGame = ({ player, players }) => {
   const sorted = [...players].sort((a, b) => b.score - a.score);
   const myRank = sorted.findIndex((p) => p.id === player.id) + 1;
+  const titles = assignTitles(players);
+  const myTitle = titles.find((t) => t.player.id === player.id);
 
   const handleDownloadCertificate = () => {
     const text = `
@@ -20,6 +22,7 @@ const PlayerEndGame = ({ player, players }) => {
     - Xếp hạng phòng: ${myRank}/${players.length}
     - Tổng điểm: ${player.score} pts
     - Huy hiệu đạt được: ${player.achievements?.join(', ') || 'Chưa đạt'}
+    - Danh hiệu cá nhân: ${myTitle ? `${myTitle.label} - ${myTitle.desc}` : 'Chưa đạt'}
     
     Ngày hoàn thành: ${new Date().toLocaleDateString('vi-VN')}
     ==================================================
@@ -91,6 +94,20 @@ const PlayerEndGame = ({ player, players }) => {
             </span>
           </div>
         </div>
+
+        {/* Title Award */}
+        {myTitle && (
+          <div className="w-full max-w-xs p-4 rounded-xl text-left" style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.1), rgba(59,130,246,0.05))', border: '1px solid rgba(56,189,248,0.2)' }}>
+            <div className="text-xs text-sky-400 font-bold uppercase mb-1">Danh Hiệu Đạt Được</div>
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">{myTitle.icon}</span>
+              <div>
+                <div className="text-lg font-black text-white">{myTitle.label}</div>
+                <div className="text-xs text-slate-300">{myTitle.desc}</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Achievements list */}
         {player.achievements && player.achievements.length > 0 && (

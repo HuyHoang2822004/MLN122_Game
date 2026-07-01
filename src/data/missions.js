@@ -11,7 +11,7 @@ export const GAME_CONFIG = {
   roomCode: '847291',
   timeLimit: 20,          // seconds per decision
   storyDuration: 8,       // seconds to show story before question
-  totalChapters: 7,
+  totalChapters: 10,
 };
 
 export const ACHIEVEMENTS = [
@@ -269,6 +269,81 @@ export const MISSIONS = [
     ],
     timeLimit: 20,
   },
+  {
+    id: 8,
+    chapter: 8,
+    chapterName: 'Khủng hoảng sản xuất',
+    stage: 'Hồ sơ 8',
+    title: 'Khủng hoảng sản xuất',
+    shortTitle: 'Hồ sơ 8',
+    icon: '🏭',
+    color: '#0EA5E9',
+    storyText:
+      'Sau khi vaccine được phê duyệt, Moderna gặp khó khăn trong việc mở rộng quy mô sản xuất. Người dân đang rất mong chờ được tiêm vaccine.\n\n' +
+      'Bạn sẽ ưu tiên giải pháp nào?',
+    description: 'Để giải quyết cuộc khủng hoảng quy mô sản xuất vaccine, bạn quyết định...',
+    question: 'Để giải quyết cuộc khủng hoảng quy mô sản xuất vaccine, bạn quyết định...',
+    choices: [
+      { id: 'A', text: 'Đầu tư mở rộng nhà máy sản xuất.', indicators: { production: 20, budget: -15, trust: 10, economy: 15, research: 0 } },
+      { id: 'B', text: 'Hợp tác với các công ty dược khác để sản xuất.', indicators: { production: 15, budget: -5, trust: 15, economy: 10, research: 5 } },
+      { id: 'C', text: 'Giảm tốc độ triển khai để đảm bảo chất lượng.', indicators: { production: -10, budget: 5, trust: 20, economy: -5, research: 5 } },
+      { id: 'D', text: 'Xuất khẩu vaccine trước để tăng doanh thu.', indicators: { production: 5, budget: 15, trust: -20, economy: 25, research: 0 } },
+    ],
+    correct: 'B',
+    explanation: 'Trong thực tế, Mỹ không chỉ đầu tư vào nghiên cứu mà còn hỗ trợ năng lực sản xuất và chuỗi cung ứng (hợp tác với Lonza, Catalent) để vaccine được đưa đến người dân nhanh nhất. Sự hợp tác này là chìa khóa.',
+    references: ['Operation Warp Speed Manufacturing Strategy (2020)'],
+    timeLimit: 20,
+  },
+  {
+    id: 9,
+    chapter: 9,
+    chapterName: 'Tin giả về vaccine',
+    stage: 'Hồ sơ 9',
+    title: 'Tin giả về vaccine',
+    shortTitle: 'Hồ sơ 9',
+    icon: '📰',
+    color: '#EC4899',
+    storyText:
+      'Trên mạng xã hội xuất hiện nhiều tin giả cho rằng vaccine Moderna không an toàn.\n\n' +
+      'Nếu bạn là cố vấn truyền thông, bạn sẽ làm gì?',
+    description: 'Để đối phó với tin giả gây hoang mang dư luận về tính an toàn của vaccine, biện pháp tốt nhất là...',
+    question: 'Để đối phó với tin giả gây hoang mang dư luận về tính an toàn của vaccine, biện pháp tốt nhất là...',
+    choices: [
+      { id: 'A', text: 'Công khai toàn bộ dữ liệu nghiên cứu.', indicators: { trust: 25, budget: -5, research: 15, production: 0, economy: 5 } },
+      { id: 'B', text: 'Mời các chuyên gia độc lập giải thích.', indicators: { trust: 20, budget: -10, research: 10, production: 0, economy: 10 } },
+      { id: 'C', text: 'Bỏ qua vì sẽ tự lắng xuống.', indicators: { trust: -15, budget: 0, research: 0, production: 0, economy: 5 } },
+      { id: 'D', text: 'Chỉ tập trung quảng cáo vaccine.', indicators: { trust: -5, budget: -10, research: 0, production: 5, economy: 10 } },
+    ],
+    correct: 'A',
+    explanation: 'Niềm tin của công chúng là yếu tố quyết định trong các chiến dịch tiêm chủng. Minh bạch và truyền thông khoa học giúp tăng tỷ lệ chấp nhận vaccine.',
+    references: ['CDC Vaccine Confidence Guidelines (2021)'],
+    timeLimit: 20,
+  },
+  {
+    id: 10,
+    chapter: 10,
+    chapterName: 'Quyết định cuối cùng',
+    stage: 'Hồ sơ hoàn chỉnh',
+    title: 'Bài học lớn nhất',
+    shortTitle: 'Bài học',
+    icon: '🎓',
+    color: '#F59E0B',
+    storyText:
+      'Dịch bệnh đã được kiểm soát.\n\n' +
+      'Bạn được yêu cầu đánh giá bài học lớn nhất từ Case Moderna. Theo bạn yếu tố nào quyết định thành công?',
+    description: 'Theo bạn yếu tố nào quyết định thành công trong việc triển khai vaccine nhanh chưa từng có?',
+    question: 'Theo bạn yếu tố nào quyết định thành công trong case Moderna?',
+    choices: [
+      { id: 'A', text: 'Sự kết hợp giữa Nhà nước và doanh nghiệp.', indicators: { trust: 20, production: 20, economy: 20, research: 20, budget: -5 } },
+      { id: 'B', text: 'Công nghệ mRNA vượt trội.', indicators: { trust: 10, production: 10, economy: 15, research: 25, budget: -10 } },
+      { id: 'C', text: 'Nguồn vốn đầu tư lớn.', indicators: { trust: 5, production: 15, economy: 20, research: 10, budget: -20 } },
+      { id: 'D', text: 'Chuỗi logistics và phân phối hiệu quả.', indicators: { trust: 15, production: 25, economy: 15, research: 5, budget: -5 } },
+    ],
+    correct: 'A',
+    explanation: 'Case Moderna thành công nhờ nhiều yếu tố kết hợp: nghiên cứu công, doanh nghiệp tư nhân, hỗ trợ của chính phủ, logistics và hệ thống cấp phép. Độc quyền nhà nước trong CNTB là sự phối hợp chặt chẽ này.',
+    references: ['Moderna Case Study Analysis'],
+    timeLimit: 20,
+  },
 ];
 
 // Helper: get vote totals as percentages
@@ -304,4 +379,110 @@ export function computeAchievements(player, missions) {
   if (fastAnswers.length > 0) earned.push('fast_thinker');
   if (player.score >= 600) earned.push('policy_expert');
   return earned;
+}
+
+// Helper: dynamically assign Hall of Fame titles
+export function assignTitles(players) {
+  if (!players || players.length === 0) return [];
+  
+  const titles = [];
+  const assignedPlayerIds = [];
+
+  const getMaxPlayer = (statPath, excludeIds = []) => {
+    let maxVal = -9999;
+    let bestPlayer = null;
+    players.forEach(p => {
+      if (excludeIds.includes(p.id)) return;
+      const val = p.stats?.[statPath] || 0;
+      if (val > maxVal) {
+        maxVal = val;
+        bestPlayer = p;
+      }
+    });
+    return bestPlayer;
+  };
+
+  // 👑 Chief Policy Advisor (highest score)
+  const chief = [...players].sort((a, b) => b.score - a.score)[0];
+  if (chief) {
+    titles.push({ id: 'chief_advisor', label: 'Chief Policy Advisor', icon: '👑', desc: 'Điểm tổng số cao nhất', player: chief });
+    assignedPlayerIds.push(chief.id);
+  }
+
+  // 🏆 Moderna Master (10/10 correct answers)
+  const master = players.find(p => (p.stats?.correctCount || 0) === 10 && !assignedPlayerIds.includes(p.id));
+  if (master) {
+    titles.push({ id: 'moderna_master', label: 'Moderna Master', icon: '🏆', desc: 'Đạt điểm tuyệt đối 10/10', player: master });
+    assignedPlayerIds.push(master.id);
+  }
+
+  // 🧪 Research Pioneer (highest research)
+  const resPioneer = getMaxPlayer('research', assignedPlayerIds) || getMaxPlayer('research', []);
+  if (resPioneer && !assignedPlayerIds.includes(resPioneer.id)) {
+    titles.push({ id: 'research_pioneer', label: 'Research Pioneer', icon: '🧪', desc: 'Chỉ số Đổi mới & Nghiên cứu cao nhất', player: resPioneer });
+    assignedPlayerIds.push(resPioneer.id);
+  }
+
+  // 🛡 Public Health Guardian (highest trust)
+  const guardian = getMaxPlayer('trust', assignedPlayerIds) || getMaxPlayer('trust', []);
+  if (guardian && !assignedPlayerIds.includes(guardian.id)) {
+    titles.push({ id: 'health_guardian', label: 'Public Health Guardian', icon: '🛡️', desc: 'Chỉ số Niềm tin Công chúng cao nhất', player: guardian });
+    assignedPlayerIds.push(guardian.id);
+  }
+
+  // 💰 Economic Strategist (highest economy)
+  const econ = getMaxPlayer('economy', assignedPlayerIds) || getMaxPlayer('economy', []);
+  if (econ && !assignedPlayerIds.includes(econ.id)) {
+    titles.push({ id: 'econ_strategist', label: 'Economic Strategist', icon: '💰', desc: 'Chỉ số Tối ưu Kinh tế cao nhất', player: econ });
+    assignedPlayerIds.push(econ.id);
+  }
+
+  // 🚀 Crisis Commander (highest production)
+  const cmd = getMaxPlayer('production', assignedPlayerIds) || getMaxPlayer('production', []);
+  if (cmd && !assignedPlayerIds.includes(cmd.id)) {
+    titles.push({ id: 'crisis_commander', label: 'Crisis Commander', icon: '🚀', desc: 'Chỉ số Khủng hoảng & Sản xuất cao nhất', player: cmd });
+    assignedPlayerIds.push(cmd.id);
+  }
+
+  // 🤝 Collaboration Master (chọn nhiều phương án hợp tác - e.g. Q8 choice B)
+  const collabPlayer = players.find(p => p.stats?.choices?.[7] === 'B' && !assignedPlayerIds.includes(p.id));
+  if (collabPlayer) {
+    titles.push({ id: 'collab_master', label: 'Collaboration Master', icon: '🤝', desc: 'Liên kết hợp tác sản xuất vaccine', player: collabPlayer });
+    assignedPlayerIds.push(collabPlayer.id);
+  }
+
+  // ⚖ Balanced Decision Maker (lowest variance in stats)
+  let minVar = 999999;
+  let balancedPlayer = null;
+  players.forEach(p => {
+    if (assignedPlayerIds.includes(p.id)) return;
+    const s = p.stats || {};
+    const vals = [s.research || 0, s.budget || 0, s.trust || 0, s.production || 0, s.economy || 0];
+    const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const variance = vals.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / vals.length;
+    if (variance < minVar) {
+      minVar = variance;
+      balancedPlayer = p;
+    }
+  });
+  if (balancedPlayer) {
+    titles.push({ id: 'balanced_maker', label: 'Balanced Decision Maker', icon: '⚖️', desc: 'Các chỉ số phát triển cân bằng nhất', player: balancedPlayer });
+    assignedPlayerIds.push(balancedPlayer.id);
+  }
+
+  // ⚡ Fast Thinker (most fast answers)
+  const fast = getMaxPlayer('speedCount', assignedPlayerIds) || getMaxPlayer('speedCount', []);
+  if (fast && (fast.stats?.speedCount || 0) > 0 && !assignedPlayerIds.includes(fast.id)) {
+    titles.push({ id: 'fast_thinker', label: 'Fast Thinker', icon: '⚡', desc: 'Đưa ra các quyết định nhanh chóng nhất', player: fast });
+    assignedPlayerIds.push(fast.id);
+  }
+
+  // 🎯 Vaccine Expert (>= 9 correct answers)
+  const expert = players.find(p => (p.stats?.correctCount || 0) >= 9 && !assignedPlayerIds.includes(p.id));
+  if (expert) {
+    titles.push({ id: 'vaccine_expert', label: 'Vaccine Expert', icon: '🎯', desc: 'Đạt độ chính xác chuyên gia (≥ 9/10)', player: expert });
+    assignedPlayerIds.push(expert.id);
+  }
+
+  return titles;
 }

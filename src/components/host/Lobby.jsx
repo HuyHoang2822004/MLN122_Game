@@ -2,7 +2,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GAME_CONFIG } from '../../data/missions';
 import AnimatedBackground from '../shared/AnimatedBackground';
 
-const AVATARS = ['🎮','🚀','🦊','🐼','🦁','🐺','🦅','🐉','🤖','🧠','⚡','🔥','🎯','💎','🌟','🏆'];
 
 const Lobby = ({ players, onStart, roomCode }) => {
   const joinUrl = `${window.location.origin}/?role=player&room=${roomCode}`;
