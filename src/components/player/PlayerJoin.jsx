@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import AnimatedBackground from '../shared/AnimatedBackground';
 
-const AVATARS = ['🦊', '🐼', '🦁', '🐺', 'Eagle', '🐉', '🤖', '🧠', '⚡', '🔥', '🎯', '💎', '🌟', '🏆'];
+const AVATARS = ['🦊', '🐼', '🦁', '🐯', '🤖', '🧠', '⚡', '🔥', '💎', '🏆'];
 
 const PlayerJoin = ({ roomCode, onJoin }) => {
   const [name, setName] = useState('');
-  const [studentId, setStudentId] = useState('');
+  const studentId = '';
   const [avatar, setAvatar] = useState(AVATARS[0]);
   const [error, setError] = useState('');
 
@@ -65,27 +65,12 @@ const PlayerJoin = ({ roomCode, onJoin }) => {
               />
             </div>
 
-            {/* Student ID */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-                Mã số sinh viên (Không bắt buộc)
-              </label>
-              <input
-                type="text"
-                value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
-                placeholder="Ví dụ: B20DCCN123"
-                maxLength={15}
-                className="input-field"
-              />
-            </div>
-
             {/* Avatar Selector */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
                 Chọn Avatar Emoji
               </label>
-              <div className="grid grid-cols-7 gap-2">
+              <div className="grid grid-cols-5 gap-2">
                 {AVATARS.map((emoji) => (
                   <button
                     key={emoji}
@@ -97,7 +82,7 @@ const PlayerJoin = ({ roomCode, onJoin }) => {
                       border: avatar === emoji ? '1.5px solid #2563EB' : '1px solid rgba(255,255,255,0.08)',
                     }}
                   >
-                    {emoji === 'Eagle' ? '🦅' : emoji}
+                    {emoji}
                   </button>
                 ))}
               </div>
