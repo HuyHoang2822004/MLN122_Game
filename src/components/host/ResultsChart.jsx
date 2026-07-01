@@ -4,39 +4,13 @@ import { getVotePercentages } from "../../data/missions";
 import AnimatedBackground from "../shared/AnimatedBackground";
 
 const CHOICE_META = {
-  A: {
-    label: "▲",
-    color: "#2563EB",
-    bg: "rgba(37,99,235,0.15)",
-    border: "rgba(37,99,235,0.4)",
-  },
-  B: {
-    label: "◆",
-    color: "#14B8A6",
-    bg: "rgba(20,184,166,0.15)",
-    border: "rgba(20,184,166,0.4)",
-  },
-  C: {
-    label: "●",
-    color: "#F59E0B",
-    bg: "rgba(245,158,11,0.15)",
-    border: "rgba(245,158,11,0.4)",
-  },
-  D: {
-    label: "■",
-    color: "#EF4444",
-    bg: "rgba(239,68,68,0.15)",
-    border: "rgba(239,68,68,0.4)",
-  },
+  A: { label: "▲", color: "#2563EB", bg: "rgba(37,99,235,0.15)", border: "rgba(37,99,235,0.4)" },
+  B: { label: "◆", color: "#14B8A6", bg: "rgba(20,184,166,0.15)", border: "rgba(20,184,166,0.4)" },
+  C: { label: "●", color: "#F59E0B", bg: "rgba(245,158,11,0.15)", border: "rgba(245,158,11,0.4)" },
+  D: { label: "■", color: "#EF4444", bg: "rgba(239,68,68,0.15)", border: "rgba(239,68,68,0.4)" },
 };
 
-const ResultsChart = ({
-  mission,
-  votes,
-  onRevealExplain,
-  onNext,
-  isLastMission,
-}) => {
+const ResultsChart = ({ mission, votes, onRevealExplain, onNext, isLastMission }) => {
   const [animated, setAnimated] = useState(false);
   const pcts = getVotePercentages(votes);
   const total = Object.values(votes).reduce((a, b) => a + b, 0);
@@ -46,7 +20,8 @@ const ResultsChart = ({
     return () => clearTimeout(t);
   }, []);
 
-  const sorted = Object.entries(pcts).sort((a, b) => b[1] - a[1]);
+  // Find the most voted option (Council Decision)
+  const councilDecision = Object.entries(votes).sort((a, b) => b[1] - a[1])[0]?.[0];
 
   return (
     <div className="host-layout flex flex-col min-h-screen">
@@ -60,19 +35,15 @@ const ResultsChart = ({
         <span
           className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full flex items-center gap-2"
           style={{
-            background: `rgba(239, 68, 68, 0.1)`,
-            border: `1px solid rgba(239, 68, 68, 0.4)`,
-            color: '#EF4444',
+            background: "rgba(239, 68, 68, 0.1)",
+            border: "1px solid rgba(239, 68, 68, 0.4)",
+            color: "#EF4444",
           }}
         >
           <div className="w-2 h-2 rounded-full bg-red-500" />
           BOARD VOTE RESULTS
         </span>
-        <div
-          className="flex items-center gap-2 text-sm"
-          style={{ color: "#64748B" }}
-        >
-          <span>👥</span>
+        <div className="flex items-center gap-2 text-sm" style={{ color: "#64748B" }}>
           <span>{total} phiếu</span>
         </div>
       </div>
@@ -94,7 +65,7 @@ const ResultsChart = ({
             {mission.choices.map((choice, i) => {
               const meta = CHOICE_META[choice.id];
               const pct = pcts[choice.id] || 0;
-              const isCorrect = choice.id === mission.correct;
+              const isCouncilPick = choice.id === councilDecision && total > 0;
               const count = votes[choice.id] || 0;
 
               return (
@@ -119,10 +90,18 @@ const ResultsChart = ({
                       </span>
                       <span
                         className="text-sm font-semibold"
-                        style={{ color: isCorrect ? "#22C55E" : "#94A3B8" }}
+                        style={{ color: isCouncilPick ? "#38BDF8" : "#94A3B8" }}
                       >
                         {choice.text}
-                        {isCorrect && <span className="ml-2">✅ Đúng</span>}
+                        {isCouncilPick && (
+                          <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded-full" style={{
+                            background: "rgba(56,189,248,0.15)",
+                            color: "#38BDF8",
+                            border: "1px solid rgba(56,189,248,0.3)",
+                          }}>
+                            COUNCIL DECISION
+                          </span>
+                        )}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
@@ -133,7 +112,7 @@ const ResultsChart = ({
                         className="text-2xl font-black w-16 text-right"
                         style={{
                           fontFamily: "'JetBrains Mono', monospace",
-                          color: isCorrect ? "#22C55E" : meta.color,
+                          color: isCouncilPick ? "#38BDF8" : meta.color,
                         }}
                       >
                         {pct}%
@@ -160,11 +139,11 @@ const ResultsChart = ({
                       }}
                       style={{
                         height: "100%",
-                        background: isCorrect
-                          ? "linear-gradient(90deg, #16A34A, #22C55E)"
+                        background: isCouncilPick
+                          ? "linear-gradient(90deg, #0284C7, #38BDF8)"
                           : `linear-gradient(90deg, ${meta.color}88, ${meta.color})`,
-                        boxShadow: isCorrect
-                          ? "0 0 20px rgba(34,197,94,0.4)"
+                        boxShadow: isCouncilPick
+                          ? "0 0 20px rgba(56,189,248,0.4)"
                           : `0 0 15px ${meta.color}40`,
                         borderRadius: "inherit",
                       }}
@@ -175,7 +154,6 @@ const ResultsChart = ({
             })}
           </div>
 
-          {/* Total votes */}
           {total === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -203,37 +181,31 @@ const ResultsChart = ({
               border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
-            <div
-              className="text-xs font-semibold tracking-wider uppercase mb-3"
-              style={{ color: "#475569" }}
-            >
-              Câu hỏi
+            <div className="text-xs font-semibold tracking-wider uppercase mb-3" style={{ color: "#475569" }}>
+              Agenda
             </div>
             <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
               {mission.question}
             </p>
           </div>
 
-          {/* Winner choice */}
-          {total > 0 && (
+          {/* Council Decision highlight */}
+          {total > 0 && councilDecision && (
             <div
               className="rounded-2xl p-5"
               style={{
-                background: "rgba(34,197,94,0.08)",
-                border: "1px solid rgba(34,197,94,0.2)",
+                background: "rgba(56,189,248,0.08)",
+                border: "1px solid rgba(56,189,248,0.2)",
               }}
             >
-              <div
-                className="text-xs font-semibold tracking-wider uppercase mb-2"
-                style={{ color: "#22C55E" }}
-              >
-                ✅ Đáp án đúng
+              <div className="text-xs font-semibold tracking-wider uppercase mb-2" style={{ color: "#38BDF8" }}>
+                Official Council Decision
               </div>
-              <div className="text-lg font-bold" style={{ color: "#4ADE80" }}>
-                {mission.choices.find((c) => c.id === mission.correct)?.text}
+              <div className="text-lg font-bold" style={{ color: "#7DD3FC" }}>
+                {mission.choices.find((c) => c.id === councilDecision)?.text}
               </div>
               <div className="text-sm mt-1" style={{ color: "#334155" }}>
-                Được chọn bởi {pcts[mission.correct] || 0}% người chơi
+                Được chọn bởi {pcts[councilDecision] || 0}% thành viên hội đồng
               </div>
             </div>
           )}
@@ -243,18 +215,18 @@ const ResultsChart = ({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             onClick={onRevealExplain}
-            className="btn btn-success btn-lg w-full"
+            className="btn btn-primary btn-lg w-full"
           >
-            🔍 Xem giải thích
+            Xem Council Briefing
           </motion.button>
 
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             onClick={onNext}
-            className="btn btn-primary w-full"
+            className="btn btn-ghost w-full"
           >
-            {isLastMission ? "🏆 Bảng xếp hạng cuối" : " Bảng xếp hạng →"}
+            {isLastMission ? "Kết thúc nhiệm vụ" : "Council Ranking →"}
           </motion.button>
         </motion.div>
       </div>

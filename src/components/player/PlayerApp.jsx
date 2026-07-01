@@ -10,6 +10,7 @@ import { useGameSync, HOST_MSG, PLAYER_MSG } from '../../store/useGameSync';
 const PHASES = {
   JOIN: 'JOIN',
   WAITING: 'WAITING',
+  CINEMATIC: 'CINEMATIC',
   STORY: 'STORY',
   DECISION: 'DECISION',
   RESULTS: 'RESULTS',
@@ -36,14 +37,23 @@ const PlayerApp = ({ roomCode }) => {
 
         // Sync player state with host phase transitions
         if (player) {
-          // Update own score & achievements from host list if host has modified them
+          // Update own stats from host
           const me = msg.players.find((p) => p.id === player.id);
           if (me) {
-            setPlayer((p) => ({ ...p, score: me.score, combo: me.combo, achievements: me.achievements }));
+            setPlayer((p) => ({
+              ...p,
+              score: me.score,
+              combo: me.combo,
+              achievements: me.achievements,
+              stats: me.stats,
+            }));
           }
 
           if (msg.phase === 'LOBBY') {
             setPhase(PHASES.WAITING);
+            setCurrentVoteChoiceId(null);
+          } else if (msg.phase === 'CINEMATIC') {
+            setPhase(PHASES.CINEMATIC);
             setCurrentVoteChoiceId(null);
           } else if (msg.phase === 'STORY') {
             setPhase(PHASES.STORY);
@@ -105,14 +115,38 @@ const PlayerApp = ({ roomCode }) => {
       {phase === PHASES.WAITING && (
         <PlayerWaiting player={player} roomCode={roomCode} playersCount={playersList.length} />
       )}
+      {phase === PHASES.CINEMATIC && (
+        <div className="player-layout flex flex-col justify-center items-center p-6 min-h-screen text-center gap-6">
+          <div className="w-4 h-4 rounded-full bg-red-500 animate-pulse" />
+          <div>
+            <h3 className="text-xl font-bold text-red-400 mb-2 uppercase tracking-widest">ALERT</h3>
+            <p className="text-sm text-slate-400">
+              National Emergency — Hãy theo dõi màn hình chiếu.
+            </p>
+          </div>
+        </div>
+      )}
       {phase === PHASES.STORY && (
         <div className="player-layout flex flex-col justify-center items-center p-6 min-h-screen text-center gap-6">
-          <span className="text-5xl animate-bounce">📖</span>
+          <div
+            className="w-16 h-16 rounded-2xl flex items-center justify-center text-xs font-bold uppercase tracking-wider"
+            style={{
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: '#EF4444',
+            }}
+          >
+            FILE {mission.chapter}
+          </div>
           <div>
-            <h3 className="text-xl font-bold text-white mb-2">Chương {mission.chapter}</h3>
-            <p className="text-sm text-slate-400">
-              Hãy quan sát màn hình chiếu để theo dõi cốt truyện.
+            <h3 className="text-lg font-bold text-white mb-2">Emergency Meeting #{mission.chapter}</h3>
+            <p className="text-sm text-slate-400 max-w-xs mx-auto">
+              Hãy quan sát màn hình chiếu để nắm bắt tình huống trước khi đưa ra quyết định.
             </p>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            BACKGROUND BRIEFING
           </div>
         </div>
       )}
@@ -123,8 +157,6 @@ const PlayerApp = ({ roomCode }) => {
         <PlayerResults
           mission={mission}
           choiceId={currentVoteChoiceId}
-          score={player?.score || 0}
-          combo={player?.combo || 0}
         />
       )}
       {phase === PHASES.END && (

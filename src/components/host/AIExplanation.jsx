@@ -17,19 +17,19 @@ const AIExplanation = ({ mission, onClose }) => (
       className="relative w-full max-w-2xl mx-4 rounded-3xl overflow-hidden"
       style={{
         background: "linear-gradient(135deg, #0F172A 0%, #0A0F1C 100%)",
-        border: "1px solid rgba(34,197,94,0.3)",
-        boxShadow: "0 0 80px rgba(34,197,94,0.15), 0 25px 60px rgba(0,0,0,0.5)",
+        border: "1px solid rgba(56,189,248,0.3)",
+        boxShadow: "0 0 80px rgba(56,189,248,0.15), 0 25px 60px rgba(0,0,0,0.5)",
       }}
     >
-      {/* Green top strip */}
+      {/* Top strip */}
       <div
         style={{
           height: 4,
-          background: "linear-gradient(90deg, #16A34A, #22C55E, #14B8A6)",
+          background: "linear-gradient(90deg, #0EA5E9, #38BDF8, #14B8A6)",
         }}
       />
 
-      {/* Particle burst animation */}
+      {/* Particle burst */}
       <div className="absolute top-0 left-0 right-0 h-32 overflow-hidden pointer-events-none">
         {Array.from({ length: 8 }).map((_, i) => (
           <motion.div
@@ -40,7 +40,7 @@ const AIExplanation = ({ mission, onClose }) => (
               height: 4 + Math.random() * 4,
               left: `${10 + i * 11}%`,
               top: 0,
-              background: i % 2 === 0 ? "#22C55E" : "#14B8A6",
+              background: i % 2 === 0 ? "#38BDF8" : "#14B8A6",
             }}
             initial={{ y: 0, opacity: 0 }}
             animate={{ y: [0, -40, 0], opacity: [0, 0.8, 0] }}
@@ -56,23 +56,25 @@ const AIExplanation = ({ mission, onClose }) => (
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.15, type: "spring", stiffness: 250 }}
-            className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0"
+            className="w-14 h-14 rounded-2xl flex items-center justify-center text-xs font-bold uppercase tracking-wider flex-shrink-0"
             style={{
-              background:
-                "linear-gradient(135deg, rgba(22,163,74,0.3), rgba(20,184,166,0.2))",
-              border: "1.5px solid rgba(34,197,94,0.4)",
-              boxShadow: "0 0 30px rgba(34,197,94,0.25)",
+              background: "linear-gradient(135deg, rgba(14,165,233,0.3), rgba(20,184,166,0.2))",
+              border: "1.5px solid rgba(56,189,248,0.4)",
+              boxShadow: "0 0 30px rgba(56,189,248,0.25)",
+              color: "#38BDF8",
             }}
-          ></motion.div>
+          >
+            BRIEF
+          </motion.div>
           <div>
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
               className="text-xs font-bold tracking-widest uppercase mb-1"
-              style={{ color: "#22C55E", fontFamily: "'Outfit', sans-serif" }}
+              style={{ color: "#38BDF8", fontFamily: "'Outfit', sans-serif" }}
             >
-              Phân tích chuyên sâu
+              COUNCIL BRIEFING
             </motion.div>
             <motion.h3
               initial={{ opacity: 0, x: -10 }}
@@ -86,26 +88,25 @@ const AIExplanation = ({ mission, onClose }) => (
           </div>
         </div>
 
-        {/* Correct answer banner */}
+        {/* Historical Decision banner */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="rounded-xl px-4 py-3 mb-6 flex items-center gap-3"
+          className="rounded-xl px-4 py-3 mb-6"
           style={{
-            background: "rgba(34,197,94,0.1)",
-            border: "1px solid rgba(34,197,94,0.25)",
+            background: "rgba(56,189,248,0.08)",
+            border: "1px solid rgba(56,189,248,0.25)",
           }}
         >
-          <span style={{ color: "#22C55E", fontSize: 18 }}></span>
           <div>
             <span
               className="text-xs font-semibold uppercase"
-              style={{ color: "#22C55E" }}
+              style={{ color: "#38BDF8" }}
             >
-              Đáp án đúng:{" "}
+              Historical Decision:{" "}
             </span>
-            <span className="text-sm font-bold" style={{ color: "#4ADE80" }}>
+            <span className="text-sm font-bold" style={{ color: "#7DD3FC" }}>
               {mission.correct}.{" "}
               {mission.choices.find((c) => c.id === mission.correct)?.text}
             </span>
@@ -119,6 +120,9 @@ const AIExplanation = ({ mission, onClose }) => (
           transition={{ delay: 0.4 }}
           className="mb-6"
         >
+          <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#475569" }}>
+            What happened in reality
+          </div>
           <p
             className="text-base leading-7"
             style={{ color: "#94A3B8", fontFamily: "'Inter', sans-serif" }}
@@ -152,12 +156,7 @@ const AIExplanation = ({ mission, onClose }) => (
                   className="text-xs flex items-start gap-2"
                   style={{ color: "#475569" }}
                 >
-                  <span
-                    className="mt-0.5 flex-shrink-0"
-                    style={{ color: "#334155" }}
-                  >
-                    •
-                  </span>
+                  <span className="mt-0.5 flex-shrink-0" style={{ color: "#334155" }}>•</span>
                   {ref}
                 </li>
               ))}
@@ -173,7 +172,7 @@ const AIExplanation = ({ mission, onClose }) => (
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
           onClick={onClose}
-          className="btn btn-success btn-lg w-full mt-6"
+          className="btn btn-primary btn-lg w-full mt-6"
         >
           Tiếp theo →
         </motion.button>

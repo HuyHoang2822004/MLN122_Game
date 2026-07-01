@@ -7,7 +7,7 @@ import AIExplanation from './AIExplanation';
 import CinematicIntro from './CinematicIntro';
 import Leaderboard from './Leaderboard';
 import EndGame from './EndGame';
-import { MISSIONS, GAME_CONFIG } from '../../data/missions';
+import { MISSIONS, GAME_CONFIG, createDefaultStats } from '../../data/missions';
 import { useGameSync, HOST_MSG, PLAYER_MSG } from '../../store/useGameSync';
 
 const PHASES = {
@@ -38,7 +38,13 @@ const HostApp = ({ roomCode }) => {
       case PLAYER_MSG.JOIN:
         setPlayers((prev) => {
           if (prev.some((p) => p.id === msg.player.id)) return prev;
-          const updated = [...prev, { ...msg.player, score: 0, combo: 0, achievements: [], stats: { research: 0, budget: 0, trust: 0, production: 0, economy: 0, correctCount: 0, speedCount: 0, choices: [] } }];
+          const updated = [...prev, {
+            ...msg.player,
+            score: 0,
+            combo: 0,
+            achievements: [],
+            stats: createDefaultStats(),
+          }];
           broadcastState(phase, currentMissionIdx, updated, votes, votedPlayerIds);
           return updated;
         });
@@ -51,10 +57,9 @@ const HostApp = ({ roomCode }) => {
           const next = new Set(prev);
           next.add(msg.playerId);
 
-          // Update vote options
+          // Update vote counts
           setVotes((v) => {
             const nextVotes = { ...v, [msg.choiceId]: (v[msg.choiceId] || 0) + 1 };
-            // Auto finish question phase if all players voted
             if (next.size >= players.length && players.length > 0) {
               setTimerActive(false);
               setPhase(PHASES.RESULTS);
@@ -62,7 +67,7 @@ const HostApp = ({ roomCode }) => {
             return nextVotes;
           });
 
-          // Calculate and update score for the player
+          // Calculate and update player stats
           setPlayers((prevPlayers) => {
             const correctChoice = mission.correct;
             const isCorrect = msg.choiceId === correctChoice;
@@ -75,7 +80,7 @@ const HostApp = ({ roomCode }) => {
 
               // Accumulate choice indicators
               const choiceObj = mission.choices.find(c => c.id === msg.choiceId);
-              const nextStats = p.stats ? { ...p.stats } : { research: 0, budget: 0, trust: 0, production: 0, economy: 0, correctCount: 0, speedCount: 0, choices: [] };
+              const nextStats = { ...p.stats } || createDefaultStats();
               if (choiceObj && choiceObj.indicators) {
                 Object.entries(choiceObj.indicators).forEach(([key, val]) => {
                   nextStats[key] = (nextStats[key] || 0) + val;
@@ -83,21 +88,21 @@ const HostApp = ({ roomCode }) => {
               }
               nextStats.choices = [...(nextStats.choices || []), msg.choiceId];
               nextStats.correctCount = (nextStats.correctCount || 0) + (isCorrect ? 1 : 0);
+              nextStats.questionsAnswered = (nextStats.questionsAnswered || 0) + 1;
               const timeUsed = mission.timeLimit - msg.timeRemaining;
+              nextStats.totalTimeUsed = (nextStats.totalTimeUsed || 0) + timeUsed;
               if (timeUsed <= 5) {
                 nextStats.speedCount = (nextStats.speedCount || 0) + 1;
               }
+              nextStats.maxCombo = Math.max(nextStats.maxCombo || 0, nextCombo);
 
-              // Compute new achievements
+              // Compute achievements (kept for internal tracking)
               const nextAchievements = [...p.achievements];
               if (isCorrect && !nextAchievements.includes('warp_speed') && msg.timeRemaining >= mission.timeLimit - 3) {
                 nextAchievements.push('warp_speed');
               }
               if (nextCombo >= 3 && !nextAchievements.includes('perfect_combo')) {
                 nextAchievements.push('perfect_combo');
-              }
-              if (p.score + addedScore >= 500 && !nextAchievements.includes('policy_expert')) {
-                nextAchievements.push('policy_expert');
               }
 
               return {
@@ -205,7 +210,13 @@ const HostApp = ({ roomCode }) => {
   };
 
   const handleRestart = () => {
-    setPlayers((prev) => prev.map((p) => ({ ...p, score: 0, combo: 0, achievements: [] })));
+    setPlayers((prev) => prev.map((p) => ({
+      ...p,
+      score: 0,
+      combo: 0,
+      achievements: [],
+      stats: createDefaultStats(),
+    })));
     setCurrentMissionIdx(0);
     setVotes({ A: 0, B: 0, C: 0, D: 0 });
     setVotedPlayerIds(new Set());

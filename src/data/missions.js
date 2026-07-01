@@ -336,6 +336,32 @@ export const MISSIONS = [
   },
 ];
 
+// ──────────────────────────────────────────────────────
+//  HELPER FUNCTIONS
+// ──────────────────────────────────────────────────────
+
+// Stat keys used throughout the app
+export const STAT_KEYS = ['innovation', 'strategy', 'collaboration', 'risk', 'publicHealth', 'economy'];
+
+export const STAT_CONFIG = [
+  { key: 'innovation',    label: 'Innovation',         desc: 'Khả năng hỗ trợ nghiên cứu khoa học' },
+  { key: 'strategy',      label: 'Strategic Thinking',  desc: 'Tư duy chiến lược dài hạn' },
+  { key: 'risk',          label: 'Risk Management',     desc: 'Cân bằng an toàn và cấp bách' },
+  { key: 'collaboration', label: 'Collaboration',       desc: 'Ưu tiên hợp tác liên tổ chức' },
+  { key: 'publicHealth',  label: 'Public Health',       desc: 'Ưu tiên phúc lợi cộng đồng' },
+  { key: 'economy',       label: 'Economic Thinking',   desc: 'Cân nhắc hiệu quả tài chính' },
+];
+
+// Default stats object for new players
+export function createDefaultStats() {
+  return {
+    innovation: 0, strategy: 0, collaboration: 0,
+    risk: 0, publicHealth: 0, economy: 0,
+    correctCount: 0, speedCount: 0, totalTimeUsed: 0,
+    questionsAnswered: 0, maxCombo: 0, choices: [],
+  };
+}
+
 // Helper: get vote totals as percentages
 export function getVotePercentages(votes) {
   const total = Object.values(votes).reduce((a, b) => a + b, 0);
@@ -348,7 +374,7 @@ export function getVotePercentages(votes) {
   };
 }
 
-// Helper: calculate round score
+// Helper: calculate round score (internal, hidden from player)
 export function calculateScore({ isCorrect, timeRemaining, timeLimit, comboCount }) {
   if (!isCorrect) return 0;
   const base = 100;
@@ -357,122 +383,133 @@ export function calculateScore({ isCorrect, timeRemaining, timeLimit, comboCount
   return Math.round((base + speed) * comboMult);
 }
 
-// Helper: compute player achievements
-export function computeAchievements(player, missions) {
-  const earned = [];
-  const allAnswers = player.answers || [];
-  const correctCount = allAnswers.filter(a => a.isCorrect).length;
+// ──────────────────────────────────────────────────────
+//  COMPOSITE SCORING SYSTEM
+//  50% Knowledge Accuracy
+//  20% Response Speed
+//  20% Decision Consistency (combo-based)
+//  10% Competency Balance
+// ──────────────────────────────────────────────────────
+export function computeCompositeScore(player) {
+  const s = player.stats || {};
+  const totalQ = MISSIONS.length; // 10
 
-  if (correctCount === missions.length) earned.push('vaccine_hero');
-  if (player.combo >= 3) earned.push('perfect_combo');
-  const fastAnswers = allAnswers.filter(a => a.timeUsed <= 5);
-  if (fastAnswers.length > 0) earned.push('fast_thinker');
-  if (player.score >= 600) earned.push('policy_expert');
-  return earned;
+  // 50% — Knowledge Accuracy (0–100)
+  const accuracy = ((s.correctCount || 0) / totalQ) * 100;
+
+  // 20% — Response Speed (faster = higher, max 100)
+  const answered = s.questionsAnswered || s.correctCount || 1;
+  const avgTime = (s.totalTimeUsed || 0) / Math.max(answered, 1);
+  const timeLimit = GAME_CONFIG.timeLimit; // 20s
+  const speedScore = Math.max(0, Math.min(100, ((timeLimit - avgTime) / timeLimit) * 100));
+
+  // 20% — Decision Consistency (combo-based, max combo / total questions * 100)
+  const consistency = Math.min(100, ((s.maxCombo || 0) / totalQ) * 100);
+
+  // 10% — Competency Balance (inverse of coefficient of variation)
+  const vals = STAT_KEYS.map(k => s[k] || 0);
+  const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+  let balance = 100;
+  if (avg > 0) {
+    const stdDev = Math.sqrt(vals.reduce((sum, v) => sum + Math.pow(v - avg, 2), 0) / vals.length);
+    const cv = stdDev / avg; // coefficient of variation
+    balance = Math.max(0, Math.min(100, (1 - cv) * 100));
+  }
+
+  const composite = Math.round(
+    accuracy * 0.50 +
+    speedScore * 0.20 +
+    consistency * 0.20 +
+    balance * 0.10
+  );
+
+  return {
+    total: Math.max(0, Math.min(100, composite)),
+    accuracy: Math.round(accuracy),
+    speedScore: Math.round(speedScore),
+    consistency: Math.round(consistency),
+    balance: Math.round(balance),
+    avgTime: Math.round(avgTime * 10) / 10,
+  };
 }
 
-// Helper: dynamically assign Hall of Fame titles
+// Convert a raw stat value to star rating (1–5)
+export function statToStars(val) {
+  // Scale: roughly every 20 cumulative points = 1 star, centered at 3
+  return Math.max(1, Math.min(5, Math.round(val / 20) + 3));
+}
+
+// ──────────────────────────────────────────────────────
+//  DYNAMIC TITLE SYSTEM
+//  8 title categories. Each player gets 1 primary + up to 2 badges.
+// ──────────────────────────────────────────────────────
+const TITLE_DEFINITIONS = [
+  { id: 'national_advisor',   label: 'National Crisis Advisor',   desc: 'Hiệu suất tổng thể cao nhất',           statKey: null,            type: 'overall' },
+  { id: 'research_pioneer',   label: 'Research Pioneer',          desc: 'Chỉ số Innovation cao nhất',             statKey: 'innovation',    type: 'stat' },
+  { id: 'policy_architect',   label: 'Policy Architect',          desc: 'Chỉ số Strategic Thinking cao nhất',     statKey: 'strategy',      type: 'stat' },
+  { id: 'risk_controller',    label: 'Risk Controller',           desc: 'Chỉ số Risk Management cao nhất',        statKey: 'risk',          type: 'stat' },
+  { id: 'collab_leader',      label: 'Collaboration Leader',      desc: 'Chỉ số Collaboration cao nhất',          statKey: 'collaboration', type: 'stat' },
+  { id: 'health_guardian',    label: 'Public Health Guardian',     desc: 'Chỉ số Public Health cao nhất',          statKey: 'publicHealth',  type: 'stat' },
+  { id: 'econ_strategist',    label: 'Economic Strategist',       desc: 'Chỉ số Economic Thinking cao nhất',      statKey: 'economy',       type: 'stat' },
+  { id: 'crisis_commander',   label: 'Crisis Commander',          desc: 'Các chỉ số phát triển cân bằng nhất',    statKey: null,            type: 'balanced' },
+];
+
 export function assignTitles(players) {
   if (!players || players.length === 0) return [];
-  
-  const titles = [];
-  const assignedPlayerIds = [];
 
-  const getMaxPlayer = (statPath, excludeIds = []) => {
-    let maxVal = -9999;
-    let bestPlayer = null;
+  const titles = [];
+  const claimedPrimary = new Set(); // players who already got a primary
+
+  // Helper: find top player for a stat
+  const getTop = (statKey) => {
+    let best = null, max = -Infinity;
     players.forEach(p => {
-      if (excludeIds.includes(p.id)) return;
-      const val = p.stats?.[statPath] || 0;
-      if (val > maxVal) {
-        maxVal = val;
-        bestPlayer = p;
-      }
+      const v = p.stats?.[statKey] || 0;
+      if (v > max) { max = v; best = p; }
     });
-    return bestPlayer;
+    return best;
   };
 
-  // 👑 Chief Policy Advisor (highest score)
-  const chief = [...players].sort((a, b) => b.score - a.score)[0];
-  if (chief) {
-    titles.push({ id: 'chief_advisor', label: 'Chief Policy Advisor', desc: 'Điểm tổng số cao nhất', player: chief });
-    assignedPlayerIds.push(chief.id);
+  // 1. National Crisis Advisor — highest composite score
+  const sorted = [...players].map(p => ({ ...p, _composite: computeCompositeScore(p).total }))
+    .sort((a, b) => b._composite - a._composite);
+  if (sorted[0]) {
+    titles.push({ ...TITLE_DEFINITIONS[0], player: sorted[0] });
+    claimedPrimary.add(sorted[0].id);
   }
 
-  // 🏆 Moderna Master (10/10 correct answers)
-  const master = players.find(p => (p.stats?.correctCount || 0) === 10 && !assignedPlayerIds.includes(p.id));
-  if (master) {
-    titles.push({ id: 'moderna_master', label: 'Moderna Master', desc: 'Đạt điểm tuyệt đối 10/10', player: master });
-    assignedPlayerIds.push(master.id);
-  }
-
-  // 🧪 Research Pioneer (highest research)
-  const resPioneer = getMaxPlayer('innovation', assignedPlayerIds) || getMaxPlayer('innovation', []);
-  if (resPioneer && !assignedPlayerIds.includes(resPioneer.id)) {
-    titles.push({ id: 'research_pioneer', label: 'Research Pioneer', desc: 'Chỉ số Đổi mới & Nghiên cứu cao nhất', player: resPioneer });
-    assignedPlayerIds.push(resPioneer.id);
-  }
-
-  // 🛡 Public Health Guardian (highest trust)
-  const guardian = getMaxPlayer('publicHealth', assignedPlayerIds) || getMaxPlayer('publicHealth', []);
-  if (guardian && !assignedPlayerIds.includes(guardian.id)) {
-    titles.push({ id: 'health_guardian', label: 'Public Health Guardian', desc: 'Chỉ số Niềm tin Công chúng cao nhất', player: guardian });
-    assignedPlayerIds.push(guardian.id);
-  }
-
-  // 💰 Economic Strategist (highest economy)
-  const econ = getMaxPlayer('economy', assignedPlayerIds) || getMaxPlayer('economy', []);
-  if (econ && !assignedPlayerIds.includes(econ.id)) {
-    titles.push({ id: 'econ_strategist', label: 'Economic Strategist', desc: 'Chỉ số Tối ưu Kinh tế cao nhất', player: econ });
-    assignedPlayerIds.push(econ.id);
-  }
-
-  // 🚀 Crisis Commander (highest production)
-  const cmd = getMaxPlayer('collaboration', assignedPlayerIds) || getMaxPlayer('collaboration', []);
-  if (cmd && !assignedPlayerIds.includes(cmd.id)) {
-    titles.push({ id: 'crisis_commander', label: 'Crisis Commander', desc: 'Chỉ số Khủng hoảng & Sản xuất cao nhất', player: cmd });
-    assignedPlayerIds.push(cmd.id);
-  }
-
-  // 🤝 Collaboration Master (chọn nhiều phương án hợp tác - e.g. Q8 choice B)
-  const collabPlayer = players.find(p => p.stats?.choices?.[7] === 'B' && !assignedPlayerIds.includes(p.id));
-  if (collabPlayer) {
-    titles.push({ id: 'collab_master', label: 'Collaboration Master', desc: 'Liên kết hợp tác sản xuất vaccine', player: collabPlayer });
-    assignedPlayerIds.push(collabPlayer.id);
-  }
-
-  // ⚖ Balanced Decision Maker (lowest variance in stats)
-  let minVar = 999999;
-  let balancedPlayer = null;
-  players.forEach(p => {
-    if (assignedPlayerIds.includes(p.id)) return;
-    const s = p.stats || {};
-    const vals = [s.innovation || 0, s.strategy || 0, s.collaboration || 0, s.risk || 0, s.publicHealth || 0, s.economy || 0];
-    const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
-    const variance = vals.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / vals.length;
-    if (variance < minVar) {
-      minVar = variance;
-      balancedPlayer = p;
+  // 2–7. Stat-based titles
+  TITLE_DEFINITIONS.filter(t => t.type === 'stat').forEach(def => {
+    const top = getTop(def.statKey);
+    if (top) {
+      titles.push({ ...def, player: top });
+      claimedPrimary.add(top.id);
     }
   });
-  if (balancedPlayer) {
-    titles.push({ id: 'balanced_maker', label: 'Balanced Decision Maker', desc: 'Các chỉ số phát triển cân bằng nhất', player: balancedPlayer });
-    assignedPlayerIds.push(balancedPlayer.id);
-  }
 
-  // ⚡ Fast Thinker (most fast answers)
-  const fast = getMaxPlayer('speedCount', assignedPlayerIds) || getMaxPlayer('speedCount', []);
-  if (fast && (fast.stats?.speedCount || 0) > 0 && !assignedPlayerIds.includes(fast.id)) {
-    titles.push({ id: 'fast_thinker', label: 'Fast Thinker', desc: 'Đưa ra các quyết định nhanh chóng nhất', player: fast });
-    assignedPlayerIds.push(fast.id);
-  }
-
-  // 🎯 Vaccine Expert (>= 9 correct answers)
-  const expert = players.find(p => (p.stats?.correctCount || 0) >= 9 && !assignedPlayerIds.includes(p.id));
-  if (expert) {
-    titles.push({ id: 'vaccine_expert', label: 'Vaccine Expert', desc: 'Đạt độ chính xác chuyên gia (≥ 9/10)', player: expert });
-    assignedPlayerIds.push(expert.id);
+  // 8. Crisis Commander — most balanced (lowest variance)
+  let minVar = Infinity, balanced = null;
+  players.forEach(p => {
+    const s = p.stats || {};
+    const vals = STAT_KEYS.map(k => s[k] || 0);
+    const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const variance = vals.reduce((sum, v) => sum + Math.pow(v - avg, 2), 0) / vals.length;
+    if (variance < minVar) { minVar = variance; balanced = p; }
+  });
+  if (balanced) {
+    titles.push({ ...TITLE_DEFINITIONS[7], player: balanced });
   }
 
   return titles;
+}
+
+// Get titles for a specific player: { primary, badges[] }
+export function getPlayerTitles(player, allPlayers) {
+  const allTitles = assignTitles(allPlayers);
+  const myTitles = allTitles.filter(t => t.player.id === player.id);
+  if (myTitles.length === 0) return { primary: null, badges: [] };
+  return {
+    primary: myTitles[0],
+    badges: myTitles.slice(1, 3), // max 2 secondary
+  };
 }
