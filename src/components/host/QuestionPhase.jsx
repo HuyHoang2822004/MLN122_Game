@@ -46,14 +46,15 @@ const QuestionPhase = ({
         style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <span
-          className="text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full"
+          className="text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full animate-pulse flex items-center gap-2"
           style={{
-            background: `${mission.color}18`,
-            border: `1px solid ${mission.color}30`,
-            color: mission.color,
+            background: `rgba(239, 68, 68, 0.1)`,
+            border: `1px solid rgba(239, 68, 68, 0.4)`,
+            color: '#EF4444',
           }}
         >
-          Chương {mission.chapter} · {mission.chapterName}
+          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+          EMERGENCY MEETING #{mission.chapter}
         </span>
         <div className="flex-1" />
         <div
@@ -89,7 +90,7 @@ const QuestionPhase = ({
             transition={{ duration: 0.5 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-3xl">{mission.icon}</span>
+              {/* Icon removed */}
               <h2
                 className="text-xl font-bold"
                 style={{ fontFamily: "'Outfit', sans-serif", color: "#94A3B8" }}

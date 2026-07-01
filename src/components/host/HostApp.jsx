@@ -4,6 +4,7 @@ import StoryPhase from './StoryPhase';
 import QuestionPhase from './QuestionPhase';
 import ResultsChart from './ResultsChart';
 import AIExplanation from './AIExplanation';
+import CinematicIntro from './CinematicIntro';
 import Leaderboard from './Leaderboard';
 import EndGame from './EndGame';
 import { MISSIONS, GAME_CONFIG } from '../../data/missions';
@@ -11,6 +12,7 @@ import { useGameSync, HOST_MSG, PLAYER_MSG } from '../../store/useGameSync';
 
 const PHASES = {
   LOBBY: 'LOBBY',
+  CINEMATIC: 'CINEMATIC',
   STORY: 'STORY',
   QUESTION: 'QUESTION',
   RESULTS: 'RESULTS',
@@ -165,6 +167,10 @@ const HostApp = ({ roomCode }) => {
   }, [timerActive, timeRemaining]);
 
   const handleStartGame = () => {
+    setPhase(PHASES.CINEMATIC);
+  };
+
+  const handleCinematicComplete = () => {
     setPhase(PHASES.STORY);
   };
 
@@ -210,6 +216,9 @@ const HostApp = ({ roomCode }) => {
     <>
       {phase === PHASES.LOBBY && (
         <Lobby players={players} onStart={handleStartGame} roomCode={roomCode} />
+      )}
+      {phase === PHASES.CINEMATIC && (
+        <CinematicIntro onComplete={handleCinematicComplete} />
       )}
       {phase === PHASES.STORY && (
         <StoryPhase mission={mission} onReady={handleStoryReady} />

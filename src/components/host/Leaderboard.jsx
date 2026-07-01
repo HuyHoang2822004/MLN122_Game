@@ -136,7 +136,7 @@ const Leaderboard = ({ players, mission, onNext, isLastMission }) => {
                             color: "#94A3B8",
                           }}
                         >
-                          <span>{ach.icon}</span>
+                          {/* Icon removed */}
                           <span>{ach.label}</span>
                         </div>
                       );

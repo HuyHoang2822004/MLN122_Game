@@ -15,14 +15,14 @@ export const GAME_CONFIG = {
 };
 
 export const ACHIEVEMENTS = [
-  { id: 'vaccine_hero',     label: 'Vaccine Hero',       icon: '💉', desc: 'Hoàn thành toàn bộ nhiệm vụ' },
-  { id: 'policy_expert',    label: 'Policy Expert',      icon: '📜', desc: 'Trả lời đúng 5+ câu liên tiếp' },
-  { id: 'research_master',  label: 'Research Master',    icon: '🔬', desc: 'Điểm Research cao nhất' },
-  { id: 'economic_strat',   label: 'Economic Strategist',icon: '📈', desc: 'Điểm Economy cao nhất' },
-  { id: 'fast_thinker',     label: 'Fast Thinker',       icon: '⚡', desc: 'Trả lời dưới 5 giây' },
-  { id: 'perfect_combo',    label: 'Perfect Combo',      icon: '🔥', desc: 'Combo x3 trở lên' },
-  { id: 'warp_speed',       label: 'Warp Speed',         icon: '🚀', desc: 'Đạt điểm tốc độ tối đa' },
-  { id: 'strategist',       label: 'Strategic Advisor',  icon: '🎯', desc: 'Điểm cao nhất trong trò chơi' },
+  { id: 'vaccine_hero',     label: 'Vaccine Hero',       desc: 'Hoàn thành toàn bộ nhiệm vụ' },
+  { id: 'policy_expert',    label: 'Policy Expert',      desc: 'Trả lời đúng 5+ câu liên tiếp' },
+  { id: 'research_master',  label: 'Research Master',    desc: 'Điểm Research cao nhất' },
+  { id: 'economic_strat',   label: 'Economic Strategist',desc: 'Điểm Economy cao nhất' },
+  { id: 'fast_thinker',     label: 'Fast Thinker',       desc: 'Trả lời dưới 5 giây' },
+  { id: 'perfect_combo',    label: 'Perfect Combo',      desc: 'Combo x3 trở lên' },
+  { id: 'warp_speed',       label: 'Warp Speed',         desc: 'Đạt điểm tốc độ tối đa' },
+  { id: 'strategist',       label: 'Strategic Advisor',  desc: 'Điểm cao nhất trong trò chơi' },
 ];
 
 export const MISSIONS = [
@@ -33,7 +33,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ 1',
     title: 'Lý luận của Lênin',
     shortTitle: 'Hồ sơ 1',
-    icon: '🔬',
     color: '#2563EB',
     storyText:
       'Năm 2020. COVID-19 bùng phát dữ dội — bệnh viện quá tải, hàng triệu người tử vong trên toàn thế giới. ' +
@@ -43,10 +42,10 @@ export const MISSIONS = [
     description: 'Theo V.I. Lênin, tự do cạnh tranh tất yếu dẫn đến một hệ quả kinh tế quan trọng — nền tảng lý luận giải thích sự ra đời của độc quyền.',
     question: 'Theo V.I. Lênin, tự do cạnh tranh đẻ ra ________ và sự tập trung sản xuất này khi phát triển tới một mức độ nhất định lại dẫn tới độc quyền.',
     choices: [
-      { id: 'A', text: 'Tích lũy tư bản',         indicators: { research: -5, budget: 10, trust: -5,  production: 0,  economy: 5  } },
-      { id: 'B', text: 'Chuyên môn hóa lao động', indicators: { research: 5,  budget: 0,  trust: 5,   production: 10, economy: 0  } },
-      { id: 'C', text: 'Tập trung sản xuất',       indicators: { research: 20, budget: -5, trust: 15,  production: 20, economy: 15 } },
-      { id: 'D', text: 'Toàn cầu hóa',             indicators: { research: 0,  budget: -10,trust: 0,   production: -5, economy: 20 } },
+      { id: 'A', text: 'Tích lũy tư bản',         indicators: { innovation: -5, strategy: 10, publicHealth: -5,  collaboration: 0,  economy: 5, risk: 10 } },
+      { id: 'B', text: 'Chuyên môn hóa lao động', indicators: { innovation: 5,  strategy: 0,  publicHealth: 5,   collaboration: 10, economy: 0, risk: 10 } },
+      { id: 'C', text: 'Tập trung sản xuất',       indicators: { innovation: 20, strategy: -5, publicHealth: 15,  collaboration: 20, economy: 15, risk: 10 } },
+      { id: 'D', text: 'Toàn cầu hóa',             indicators: { innovation: 0,  strategy: -10,publicHealth: 0,   collaboration: -5, economy: 20, risk: 10 } },
     ],
     correct: 'C',
     explanation:
@@ -67,7 +66,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ 2',
     title: 'Case Moderna',
     shortTitle: 'Hồ sơ 2',
-    icon: '💰',
     color: '#14B8A6',
     storyText:
       'Moderna cần hàng tỷ đô la để phát triển vaccine. Nhà đầu tư tư nhân e dè — không ai biết vaccine có thành công không. ' +
@@ -77,10 +75,10 @@ export const MISSIONS = [
     description: 'Nhà nước Mỹ không chỉ đứng ngoài mà trực tiếp tham gia hỗ trợ Moderna trên nhiều phương diện.',
     question: 'Nhà nước Mỹ hỗ trợ Moderna không chỉ bằng tiền, mà còn thông qua nghiên cứu công, cấp phép, sản xuất, logistics và...',
     choices: [
-      { id: 'A', text: 'Quảng cáo', indicators: { research: 0,  budget: -15, trust: 5,  production: 0,  economy: 0  } },
-      { id: 'B', text: 'Tiếp thị',  indicators: { research: 0,  budget: -10, trust: 10, production: 0,  economy: 5  } },
-      { id: 'C', text: 'Xuất khẩu', indicators: { research: 0,  budget: -5,  trust: 5,  production: 10, economy: 20 } },
-      { id: 'D', text: 'Phân phối', indicators: { research: 15, budget: -20, trust: 25, production: 20, economy: 20 } },
+      { id: 'A', text: 'Quảng cáo', indicators: { innovation: 0,  strategy: -15, publicHealth: 5,  collaboration: 0,  economy: 0, risk: 10 } },
+      { id: 'B', text: 'Tiếp thị',  indicators: { innovation: 0,  strategy: -10, publicHealth: 10, collaboration: 0,  economy: 5, risk: 10 } },
+      { id: 'C', text: 'Xuất khẩu', indicators: { innovation: 0,  strategy: -5,  publicHealth: 5,  collaboration: 10, economy: 20, risk: 10 } },
+      { id: 'D', text: 'Phân phối', indicators: { innovation: 15, strategy: -20, publicHealth: 25, collaboration: 20, economy: 20, risk: 10 } },
     ],
     correct: 'D',
     explanation:
@@ -102,7 +100,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ 3',
     title: 'BARDA',
     shortTitle: 'Hồ sơ 3',
-    icon: '🛡️',
     color: '#8B5CF6',
     storyText:
       'BARDA — Cơ quan Nghiên cứu và Phát triển Y sinh Nâng cao — quyết định rót 955 triệu USD cho Moderna ' +
@@ -112,10 +109,10 @@ export const MISSIONS = [
     description: 'BARDA là công cụ tài chính then chốt của Nhà nước Mỹ trong case Moderna.',
     question: 'Trong case Moderna, Nhà nước Mỹ dùng ngân sách công để chia sẻ ________ nghiên cứu cho doanh nghiệp.',
     choices: [
-      { id: 'A', text: 'Lợi nhuận', indicators: { research: -10, budget: 15,  trust: -15, production: -5, economy: 10 } },
-      { id: 'B', text: 'Chi phí',   indicators: { research: 10,  budget: -25, trust: 5,   production: 10, economy: 5  } },
-      { id: 'C', text: 'Rủi ro',    indicators: { research: 25,  budget: -20, trust: 20,  production: 15, economy: 20 } },
-      { id: 'D', text: 'Thuế',      indicators: { research: -5,  budget: 10,  trust: -10, production: -5, economy: -5 } },
+      { id: 'A', text: 'Lợi nhuận', indicators: { innovation: -10, strategy: 15,  publicHealth: -15, collaboration: -5, economy: 10, risk: 10 } },
+      { id: 'B', text: 'Chi phí',   indicators: { innovation: 10,  strategy: -25, publicHealth: 5,   collaboration: 10, economy: 5, risk: 10 } },
+      { id: 'C', text: 'Rủi ro',    indicators: { innovation: 25,  strategy: -20, publicHealth: 20,  collaboration: 15, economy: 20, risk: 10 } },
+      { id: 'D', text: 'Thuế',      indicators: { innovation: -5,  strategy: 10,  publicHealth: -10, collaboration: -5, economy: -5, risk: 10 } },
     ],
     correct: 'C',
     explanation:
@@ -137,7 +134,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ 4',
     title: 'FDA',
     shortTitle: 'Hồ sơ 4',
-    icon: '📋',
     color: '#F59E0B',
     storyText:
       'Vaccine đã được phát triển — nhưng cần phê duyệt trước khi đưa ra thị trường. ' +
@@ -147,10 +143,10 @@ export const MISSIONS = [
     description: 'Vaccine COVID-19 không chỉ là hàng hóa y tế thông thường — bản chất chiến lược quy định cách Nhà nước can thiệp.',
     question: 'Trong đại dịch, vaccine COVID-19 không chỉ là hàng hóa y tế mà còn là sản phẩm thuộc lĩnh vực ________.',
     choices: [
-      { id: 'A', text: 'Chiến lược',  indicators: { research: 20, budget: -15, trust: 25, production: 20, economy: 25 } },
-      { id: 'B', text: 'Tiêu dùng',   indicators: { research: 0,  budget: 5,   trust: -5, production: 5,  economy: 5  } },
-      { id: 'C', text: 'Dịch vụ',     indicators: { research: 5,  budget: 0,   trust: 10, production: -5, economy: 5  } },
-      { id: 'D', text: 'Thương mại',  indicators: { research: -5, budget: 10,  trust: -10,production: 5,  economy: 15 } },
+      { id: 'A', text: 'Chiến lược',  indicators: { innovation: 20, strategy: -15, publicHealth: 25, collaboration: 20, economy: 25, risk: 10 } },
+      { id: 'B', text: 'Tiêu dùng',   indicators: { innovation: 0,  strategy: 5,   publicHealth: -5, collaboration: 5,  economy: 5, risk: 10 } },
+      { id: 'C', text: 'Dịch vụ',     indicators: { innovation: 5,  strategy: 0,   publicHealth: 10, collaboration: -5, economy: 5, risk: 10 } },
+      { id: 'D', text: 'Thương mại',  indicators: { innovation: -5, strategy: 10,  publicHealth: -10,collaboration: 5,  economy: 15, risk: 10 } },
     ],
     correct: 'A',
     explanation:
@@ -172,7 +168,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ 5',
     title: 'Operation Warp Speed',
     shortTitle: 'Hồ sơ 5',
-    icon: '🏭',
     color: '#EF4444',
     storyText:
       'Vaccine đã được phê duyệt — nhưng sản xuất hàng trăm triệu liều trong thời gian ngắn nhất là thách thức chưa từng thấy. ' +
@@ -182,10 +177,10 @@ export const MISSIONS = [
     description: 'Độc quyền nhà nước trong CNTB là sự kết hợp đặc biệt giữa hai sức mạnh.',
     question: 'Độc quyền nhà nước trong chủ nghĩa tư bản là sự kết hợp giữa sức mạnh của nhà nước tư sản và sức mạnh của tư bản ________.',
     choices: [
-      { id: 'A', text: 'Công nghiệp', indicators: { research: 10, budget: -10, trust: 5,  production: 20, economy: 10 } },
-      { id: 'B', text: 'Độc quyền',   indicators: { research: 20, budget: -20, trust: 15, production: 25, economy: 25 } },
-      { id: 'C', text: 'Tài chính',   indicators: { research: 5,  budget: 5,   trust: 0,  production: 10, economy: 15 } },
-      { id: 'D', text: 'Quốc tế',     indicators: { research: 0,  budget: -5,  trust: 10, production: 5,  economy: 20 } },
+      { id: 'A', text: 'Công nghiệp', indicators: { innovation: 10, strategy: -10, publicHealth: 5,  collaboration: 20, economy: 10, risk: 10 } },
+      { id: 'B', text: 'Độc quyền',   indicators: { innovation: 20, strategy: -20, publicHealth: 15, collaboration: 25, economy: 25, risk: 10 } },
+      { id: 'C', text: 'Tài chính',   indicators: { innovation: 5,  strategy: 5,   publicHealth: 0,  collaboration: 10, economy: 15, risk: 10 } },
+      { id: 'D', text: 'Quốc tế',     indicators: { innovation: 0,  strategy: -5,  publicHealth: 10, collaboration: 5,  economy: 20, risk: 10 } },
     ],
     correct: 'B',
     explanation:
@@ -207,7 +202,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ 6',
     title: 'Biểu hiện mới',
     shortTitle: 'Hồ sơ 6',
-    icon: '🌐',
     color: '#22C55E',
     storyText:
       'Vaccine đã sản xuất xong — nhưng đưa đến tay hàng trăm triệu người là bài toán logistics khổng lồ. ' +
@@ -216,10 +210,10 @@ export const MISSIONS = [
     description: 'Nhà nước tư sản sử dụng nhiều công cụ điều tiết kinh tế đa dạng — case Moderna thể hiện đầy đủ các công cụ này.',
     question: 'Các công cụ điều tiết kinh tế của nhà nước tư sản gồm ngân sách, thuế, tiền tệ, tín dụng, doanh nghiệp nhà nước, kế hoạch hóa và công cụ hành chính - ________.',
     choices: [
-      { id: 'A', text: 'Chính trị', indicators: { research: 0,  budget: 5,   trust: 10,  production: 0,  economy: 5  } },
-      { id: 'B', text: 'Quân sự',   indicators: { research: 0,  budget: -15, trust: -10, production: 10, economy: -10} },
-      { id: 'C', text: 'Ngoại giao',indicators: { research: 5,  budget: -5,  trust: 15,  production: 5,  economy: 15 } },
-      { id: 'D', text: 'Pháp lý',   indicators: { research: 10, budget: -10, trust: 20,  production: 15, economy: 20 } },
+      { id: 'A', text: 'Chính trị', indicators: { innovation: 0,  strategy: 5,   publicHealth: 10,  collaboration: 0,  economy: 5, risk: 10 } },
+      { id: 'B', text: 'Quân sự',   indicators: { innovation: 0,  strategy: -15, publicHealth: -10, collaboration: 10, economy: -10, risk: 10 } },
+      { id: 'C', text: 'Ngoại giao',indicators: { innovation: 5,  strategy: -5,  publicHealth: 15,  collaboration: 5,  economy: 15, risk: 10 } },
+      { id: 'D', text: 'Pháp lý',   indicators: { innovation: 10, strategy: -10, publicHealth: 20,  collaboration: 15, economy: 20, risk: 10 } },
     ],
     correct: 'D',
     explanation:
@@ -241,7 +235,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ hoàn chỉnh',
     title: 'Tổng kết',
     shortTitle: 'Tổng kết',
-    icon: '🏆',
     color: '#F59E0B',
     storyText:
       'Vaccine COVID-19 của Moderna đã cứu hàng triệu sinh mạng. Hành trình từ phòng nghiên cứu đến cánh tay người dân ' +
@@ -250,10 +243,10 @@ export const MISSIONS = [
     description: 'Câu hỏi cuối — tổng kết toàn bộ lý luận và case Moderna. Trả lời đúng để hoàn chỉnh hồ sơ!',
     question: 'Độc quyền nhà nước trong chủ nghĩa tư bản là sự kết hợp giữa quyền lực của nhà nước và sức mạnh của ________ độc quyền.',
     choices: [
-      { id: 'A', text: 'Tư bản',            indicators: { research: 20, budget: -15, trust: 20, production: 20, economy: 25 } },
-      { id: 'B', text: 'Thị trường',         indicators: { research: 0,  budget: 10,  trust: -5, production: 5,  economy: 10 } },
-      { id: 'C', text: 'Doanh nghiệp nhỏ',  indicators: { research: 5,  budget: 5,   trust: 5,  production: -5, economy: 0  } },
-      { id: 'D', text: 'Lao động',           indicators: { research: 0,  budget: 0,   trust: 10, production: -10,economy: -5 } },
+      { id: 'A', text: 'Tư bản',            indicators: { innovation: 20, strategy: -15, publicHealth: 20, collaboration: 20, economy: 25, risk: 10 } },
+      { id: 'B', text: 'Thị trường',         indicators: { innovation: 0,  strategy: 10,  publicHealth: -5, collaboration: 5,  economy: 10, risk: 10 } },
+      { id: 'C', text: 'Doanh nghiệp nhỏ',  indicators: { innovation: 5,  strategy: 5,   publicHealth: 5,  collaboration: -5, economy: 0, risk: 10 } },
+      { id: 'D', text: 'Lao động',           indicators: { innovation: 0,  strategy: 0,   publicHealth: 10, collaboration: -10,economy: -5, risk: 10 } },
     ],
     correct: 'A',
     explanation:
@@ -276,7 +269,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ 8',
     title: 'Khủng hoảng sản xuất',
     shortTitle: 'Hồ sơ 8',
-    icon: '🏭',
     color: '#0EA5E9',
     storyText:
       'Sau khi vaccine được phê duyệt, Moderna gặp khó khăn trong việc mở rộng quy mô sản xuất. Người dân đang rất mong chờ được tiêm vaccine.\n\n' +
@@ -284,10 +276,10 @@ export const MISSIONS = [
     description: 'Để giải quyết cuộc khủng hoảng quy mô sản xuất vaccine, bạn quyết định...',
     question: 'Để giải quyết cuộc khủng hoảng quy mô sản xuất vaccine, bạn quyết định...',
     choices: [
-      { id: 'A', text: 'Đầu tư mở rộng nhà máy sản xuất.', indicators: { production: 20, budget: -15, trust: 10, economy: 15, research: 0 } },
-      { id: 'B', text: 'Hợp tác với các công ty dược khác để sản xuất.', indicators: { production: 15, budget: -5, trust: 15, economy: 10, research: 5 } },
-      { id: 'C', text: 'Giảm tốc độ triển khai để đảm bảo chất lượng.', indicators: { production: -10, budget: 5, trust: 20, economy: -5, research: 5 } },
-      { id: 'D', text: 'Xuất khẩu vaccine trước để tăng doanh thu.', indicators: { production: 5, budget: 15, trust: -20, economy: 25, research: 0 } },
+      { id: 'A', text: 'Đầu tư mở rộng nhà máy sản xuất.', indicators: { collaboration: 20, strategy: -15, publicHealth: 10, economy: 15, innovation: 0 } },
+      { id: 'B', text: 'Hợp tác với các công ty dược khác để sản xuất.', indicators: { collaboration: 15, strategy: -5, publicHealth: 15, economy: 10, innovation: 5 } },
+      { id: 'C', text: 'Giảm tốc độ triển khai để đảm bảo chất lượng.', indicators: { collaboration: -10, strategy: 5, publicHealth: 20, economy: -5, innovation: 5 } },
+      { id: 'D', text: 'Xuất khẩu vaccine trước để tăng doanh thu.', indicators: { collaboration: 5, strategy: 15, publicHealth: -20, economy: 25, innovation: 0 } },
     ],
     correct: 'B',
     explanation: 'Trong thực tế, Mỹ không chỉ đầu tư vào nghiên cứu mà còn hỗ trợ năng lực sản xuất và chuỗi cung ứng (hợp tác với Lonza, Catalent) để vaccine được đưa đến người dân nhanh nhất. Sự hợp tác này là chìa khóa.',
@@ -301,7 +293,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ 9',
     title: 'Tin giả về vaccine',
     shortTitle: 'Hồ sơ 9',
-    icon: '📰',
     color: '#EC4899',
     storyText:
       'Trên mạng xã hội xuất hiện nhiều tin giả cho rằng vaccine Moderna không an toàn.\n\n' +
@@ -309,10 +300,10 @@ export const MISSIONS = [
     description: 'Để đối phó với tin giả gây hoang mang dư luận về tính an toàn của vaccine, biện pháp tốt nhất là...',
     question: 'Để đối phó với tin giả gây hoang mang dư luận về tính an toàn của vaccine, biện pháp tốt nhất là...',
     choices: [
-      { id: 'A', text: 'Công khai toàn bộ dữ liệu nghiên cứu.', indicators: { trust: 25, budget: -5, research: 15, production: 0, economy: 5 } },
-      { id: 'B', text: 'Mời các chuyên gia độc lập giải thích.', indicators: { trust: 20, budget: -10, research: 10, production: 0, economy: 10 } },
-      { id: 'C', text: 'Bỏ qua vì sẽ tự lắng xuống.', indicators: { trust: -15, budget: 0, research: 0, production: 0, economy: 5 } },
-      { id: 'D', text: 'Chỉ tập trung quảng cáo vaccine.', indicators: { trust: -5, budget: -10, research: 0, production: 5, economy: 10 } },
+      { id: 'A', text: 'Công khai toàn bộ dữ liệu nghiên cứu.', indicators: { publicHealth: 25, strategy: -5, innovation: 15, collaboration: 0, economy: 5, risk: 10 } },
+      { id: 'B', text: 'Mời các chuyên gia độc lập giải thích.', indicators: { publicHealth: 20, strategy: -10, innovation: 10, collaboration: 0, economy: 10, risk: 10 } },
+      { id: 'C', text: 'Bỏ qua vì sẽ tự lắng xuống.', indicators: { publicHealth: -15, strategy: 0, innovation: 0, collaboration: 0, economy: 5, risk: 10 } },
+      { id: 'D', text: 'Chỉ tập trung quảng cáo vaccine.', indicators: { publicHealth: -5, strategy: -10, innovation: 0, collaboration: 5, economy: 10, risk: 10 } },
     ],
     correct: 'A',
     explanation: 'Niềm tin của công chúng là yếu tố quyết định trong các chiến dịch tiêm chủng. Minh bạch và truyền thông khoa học giúp tăng tỷ lệ chấp nhận vaccine.',
@@ -326,7 +317,6 @@ export const MISSIONS = [
     stage: 'Hồ sơ hoàn chỉnh',
     title: 'Bài học lớn nhất',
     shortTitle: 'Bài học',
-    icon: '🎓',
     color: '#F59E0B',
     storyText:
       'Dịch bệnh đã được kiểm soát.\n\n' +
@@ -334,10 +324,10 @@ export const MISSIONS = [
     description: 'Theo bạn yếu tố nào quyết định thành công trong việc triển khai vaccine nhanh chưa từng có?',
     question: 'Theo bạn yếu tố nào quyết định thành công trong case Moderna?',
     choices: [
-      { id: 'A', text: 'Sự kết hợp giữa Nhà nước và doanh nghiệp.', indicators: { trust: 20, production: 20, economy: 20, research: 20, budget: -5 } },
-      { id: 'B', text: 'Công nghệ mRNA vượt trội.', indicators: { trust: 10, production: 10, economy: 15, research: 25, budget: -10 } },
-      { id: 'C', text: 'Nguồn vốn đầu tư lớn.', indicators: { trust: 5, production: 15, economy: 20, research: 10, budget: -20 } },
-      { id: 'D', text: 'Chuỗi logistics và phân phối hiệu quả.', indicators: { trust: 15, production: 25, economy: 15, research: 5, budget: -5 } },
+      { id: 'A', text: 'Sự kết hợp giữa Nhà nước và doanh nghiệp.', indicators: { publicHealth: 20, collaboration: 20, economy: 20, innovation: 20, strategy: -5 } },
+      { id: 'B', text: 'Công nghệ mRNA vượt trội.', indicators: { publicHealth: 10, collaboration: 10, economy: 15, innovation: 25, strategy: -10 } },
+      { id: 'C', text: 'Nguồn vốn đầu tư lớn.', indicators: { publicHealth: 5, collaboration: 15, economy: 20, innovation: 10, strategy: -20 } },
+      { id: 'D', text: 'Chuỗi logistics và phân phối hiệu quả.', indicators: { publicHealth: 15, collaboration: 25, economy: 15, innovation: 5, strategy: -5 } },
     ],
     correct: 'A',
     explanation: 'Case Moderna thành công nhờ nhiều yếu tố kết hợp: nghiên cứu công, doanh nghiệp tư nhân, hỗ trợ của chính phủ, logistics và hệ thống cấp phép. Độc quyền nhà nước trong CNTB là sự phối hợp chặt chẽ này.',
@@ -405,49 +395,49 @@ export function assignTitles(players) {
   // 👑 Chief Policy Advisor (highest score)
   const chief = [...players].sort((a, b) => b.score - a.score)[0];
   if (chief) {
-    titles.push({ id: 'chief_advisor', label: 'Chief Policy Advisor', icon: '👑', desc: 'Điểm tổng số cao nhất', player: chief });
+    titles.push({ id: 'chief_advisor', label: 'Chief Policy Advisor', desc: 'Điểm tổng số cao nhất', player: chief });
     assignedPlayerIds.push(chief.id);
   }
 
   // 🏆 Moderna Master (10/10 correct answers)
   const master = players.find(p => (p.stats?.correctCount || 0) === 10 && !assignedPlayerIds.includes(p.id));
   if (master) {
-    titles.push({ id: 'moderna_master', label: 'Moderna Master', icon: '🏆', desc: 'Đạt điểm tuyệt đối 10/10', player: master });
+    titles.push({ id: 'moderna_master', label: 'Moderna Master', desc: 'Đạt điểm tuyệt đối 10/10', player: master });
     assignedPlayerIds.push(master.id);
   }
 
   // 🧪 Research Pioneer (highest research)
-  const resPioneer = getMaxPlayer('research', assignedPlayerIds) || getMaxPlayer('research', []);
+  const resPioneer = getMaxPlayer('innovation', assignedPlayerIds) || getMaxPlayer('innovation', []);
   if (resPioneer && !assignedPlayerIds.includes(resPioneer.id)) {
-    titles.push({ id: 'research_pioneer', label: 'Research Pioneer', icon: '🧪', desc: 'Chỉ số Đổi mới & Nghiên cứu cao nhất', player: resPioneer });
+    titles.push({ id: 'research_pioneer', label: 'Research Pioneer', desc: 'Chỉ số Đổi mới & Nghiên cứu cao nhất', player: resPioneer });
     assignedPlayerIds.push(resPioneer.id);
   }
 
   // 🛡 Public Health Guardian (highest trust)
-  const guardian = getMaxPlayer('trust', assignedPlayerIds) || getMaxPlayer('trust', []);
+  const guardian = getMaxPlayer('publicHealth', assignedPlayerIds) || getMaxPlayer('publicHealth', []);
   if (guardian && !assignedPlayerIds.includes(guardian.id)) {
-    titles.push({ id: 'health_guardian', label: 'Public Health Guardian', icon: '🛡️', desc: 'Chỉ số Niềm tin Công chúng cao nhất', player: guardian });
+    titles.push({ id: 'health_guardian', label: 'Public Health Guardian', desc: 'Chỉ số Niềm tin Công chúng cao nhất', player: guardian });
     assignedPlayerIds.push(guardian.id);
   }
 
   // 💰 Economic Strategist (highest economy)
   const econ = getMaxPlayer('economy', assignedPlayerIds) || getMaxPlayer('economy', []);
   if (econ && !assignedPlayerIds.includes(econ.id)) {
-    titles.push({ id: 'econ_strategist', label: 'Economic Strategist', icon: '💰', desc: 'Chỉ số Tối ưu Kinh tế cao nhất', player: econ });
+    titles.push({ id: 'econ_strategist', label: 'Economic Strategist', desc: 'Chỉ số Tối ưu Kinh tế cao nhất', player: econ });
     assignedPlayerIds.push(econ.id);
   }
 
   // 🚀 Crisis Commander (highest production)
-  const cmd = getMaxPlayer('production', assignedPlayerIds) || getMaxPlayer('production', []);
+  const cmd = getMaxPlayer('collaboration', assignedPlayerIds) || getMaxPlayer('collaboration', []);
   if (cmd && !assignedPlayerIds.includes(cmd.id)) {
-    titles.push({ id: 'crisis_commander', label: 'Crisis Commander', icon: '🚀', desc: 'Chỉ số Khủng hoảng & Sản xuất cao nhất', player: cmd });
+    titles.push({ id: 'crisis_commander', label: 'Crisis Commander', desc: 'Chỉ số Khủng hoảng & Sản xuất cao nhất', player: cmd });
     assignedPlayerIds.push(cmd.id);
   }
 
   // 🤝 Collaboration Master (chọn nhiều phương án hợp tác - e.g. Q8 choice B)
   const collabPlayer = players.find(p => p.stats?.choices?.[7] === 'B' && !assignedPlayerIds.includes(p.id));
   if (collabPlayer) {
-    titles.push({ id: 'collab_master', label: 'Collaboration Master', icon: '🤝', desc: 'Liên kết hợp tác sản xuất vaccine', player: collabPlayer });
+    titles.push({ id: 'collab_master', label: 'Collaboration Master', desc: 'Liên kết hợp tác sản xuất vaccine', player: collabPlayer });
     assignedPlayerIds.push(collabPlayer.id);
   }
 
@@ -457,7 +447,7 @@ export function assignTitles(players) {
   players.forEach(p => {
     if (assignedPlayerIds.includes(p.id)) return;
     const s = p.stats || {};
-    const vals = [s.research || 0, s.budget || 0, s.trust || 0, s.production || 0, s.economy || 0];
+    const vals = [s.innovation || 0, s.strategy || 0, s.collaboration || 0, s.risk || 0, s.publicHealth || 0, s.economy || 0];
     const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
     const variance = vals.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / vals.length;
     if (variance < minVar) {
@@ -466,21 +456,21 @@ export function assignTitles(players) {
     }
   });
   if (balancedPlayer) {
-    titles.push({ id: 'balanced_maker', label: 'Balanced Decision Maker', icon: '⚖️', desc: 'Các chỉ số phát triển cân bằng nhất', player: balancedPlayer });
+    titles.push({ id: 'balanced_maker', label: 'Balanced Decision Maker', desc: 'Các chỉ số phát triển cân bằng nhất', player: balancedPlayer });
     assignedPlayerIds.push(balancedPlayer.id);
   }
 
   // ⚡ Fast Thinker (most fast answers)
   const fast = getMaxPlayer('speedCount', assignedPlayerIds) || getMaxPlayer('speedCount', []);
   if (fast && (fast.stats?.speedCount || 0) > 0 && !assignedPlayerIds.includes(fast.id)) {
-    titles.push({ id: 'fast_thinker', label: 'Fast Thinker', icon: '⚡', desc: 'Đưa ra các quyết định nhanh chóng nhất', player: fast });
+    titles.push({ id: 'fast_thinker', label: 'Fast Thinker', desc: 'Đưa ra các quyết định nhanh chóng nhất', player: fast });
     assignedPlayerIds.push(fast.id);
   }
 
   // 🎯 Vaccine Expert (>= 9 correct answers)
   const expert = players.find(p => (p.stats?.correctCount || 0) >= 9 && !assignedPlayerIds.includes(p.id));
   if (expert) {
-    titles.push({ id: 'vaccine_expert', label: 'Vaccine Expert', icon: '🎯', desc: 'Đạt độ chính xác chuyên gia (≥ 9/10)', player: expert });
+    titles.push({ id: 'vaccine_expert', label: 'Vaccine Expert', desc: 'Đạt độ chính xác chuyên gia (≥ 9/10)', player: expert });
     assignedPlayerIds.push(expert.id);
   }
 

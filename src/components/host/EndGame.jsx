@@ -45,7 +45,7 @@ const EndGame = ({ players, onRestart }) => {
         style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <div className="flex items-center gap-3">
-          <span className="text-2xl">🏆</span>
+          {/* Icon removed */}
           <div>
             <h2
               className="text-lg font-bold uppercase"
@@ -135,7 +135,7 @@ const EndGame = ({ players, onRestart }) => {
                     }}
                   >
                     <div className="flex items-center gap-4">
-                      <span className="text-5xl">{winner.avatar}</span>
+                      {/* Avatar removed */}
                       <div>
                         <div className="text-xs font-bold uppercase tracking-wider text-yellow-400">
                           Top 1 Cố Vấn
@@ -187,7 +187,7 @@ const EndGame = ({ players, onRestart }) => {
                       >
                         {i === 0 ? "1st" : i === 1 ? "2nd" : "3rd"}
                       </div>
-                      <span className="text-3xl">{p.avatar}</span>
+                      {/* Avatar removed */}
                       <span className="text-sm font-bold text-white truncate w-full">
                         {p.name}
                       </span>
@@ -208,7 +208,7 @@ const EndGame = ({ players, onRestart }) => {
                       <div className="text-slate-500 font-bold w-6">
                         {i + 4}
                       </div>
-                      <div className="text-2xl">{p.avatar}</div>
+                      {/* Avatar removed */}
                       <div className="font-bold text-slate-200 flex-1">
                         {p.name}
                       </div>
@@ -248,7 +248,7 @@ const EndGame = ({ players, onRestart }) => {
                     >
                       <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-500/10 transition-colors"></div>
                       <div className="flex items-start gap-4 relative z-10">
-                        <div className="text-4xl">{t.icon}</div>
+                        {/* Icon removed */}
                         <div>
                           <div className="text-xs font-bold text-slate-400 mb-1">
                             {t.desc}
@@ -263,7 +263,7 @@ const EndGame = ({ players, onRestart }) => {
                             {t.label}
                           </div>
                           <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-lg w-fit">
-                            <span>{t.player.avatar}</span>
+                            {/* Avatar removed */}
                             <span className="font-bold text-sm text-slate-200">
                               {t.player.name}
                             </span>

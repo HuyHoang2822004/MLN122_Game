@@ -58,14 +58,15 @@ const ResultsChart = ({
         style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <span
-          className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full"
+          className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full flex items-center gap-2"
           style={{
-            background: `${mission.color}18`,
-            border: `1px solid ${mission.color}30`,
-            color: mission.color,
+            background: `rgba(239, 68, 68, 0.1)`,
+            border: `1px solid rgba(239, 68, 68, 0.4)`,
+            color: '#EF4444',
           }}
         >
-          Chương {mission.chapter} · Kết quả
+          <div className="w-2 h-2 rounded-full bg-red-500" />
+          BOARD VOTE RESULTS
         </span>
         <div
           className="flex items-center gap-2 text-sm"
@@ -86,7 +87,7 @@ const ResultsChart = ({
             className="text-2xl font-bold mb-8"
             style={{ fontFamily: "'Outfit', sans-serif", color: "#94A3B8" }}
           >
-            Phân bổ câu trả lời
+            Kết quả biểu quyết hội đồng
           </motion.h2>
 
           <div className="flex flex-col gap-4">

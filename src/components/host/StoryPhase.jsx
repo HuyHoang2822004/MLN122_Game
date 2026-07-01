@@ -35,13 +35,13 @@ const StoryPhase = ({ mission, onReady }) => {
           <span
             className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full"
             style={{
-              background: `${mission.color}18`,
-              border: `1px solid ${mission.color}40`,
-              color: mission.color,
+              background: `rgba(239, 68, 68, 0.1)`,
+              border: `1px solid rgba(239, 68, 68, 0.4)`,
+              color: '#EF4444',
               fontFamily: "'Outfit', sans-serif",
             }}
           >
-            Chương {mission.chapter} · {mission.chapterName}
+            BACKGROUND BRIEFING · FILE {mission.chapter}
           </span>
         </motion.div>
 
@@ -90,7 +90,7 @@ const StoryPhase = ({ mission, onReady }) => {
                 boxShadow: `0 0 40px ${mission.color}25`,
               }}
             >
-              {mission.icon}
+              {/* Icon removed */}
             </div>
             <div>
               <div
